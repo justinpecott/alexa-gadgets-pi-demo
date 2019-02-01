@@ -1,0 +1,35 @@
+{
+  "name": "hello-world-alexa",
+  "version": "1.0.0",
+  "description": "Project Scaffold using Typescript and ASK SDKv2",
+  "main": "index.ts",
+  "dependencies": {
+    "ask-sdk-core": "^2.3.0",
+    "ask-sdk-model": "^1.11.2",
+    "web-request": "1.0.7"
+  },
+  "devDependencies": {
+    "@types/node": "^8.10.39",
+    "tslint": "^5.12.1",
+    "typescript": "^3.2.0"
+  },
+  "scripts": {
+    "clean": "rm -rf lambda",
+    "build": "npm run clean && npm run tsc && npm run deps",
+    "pretsc": "mkdir -p lambda/custom && npm run tslint",
+    "tsc": "tsc",
+    "predeps": "cp package.json ./lambda/custom",
+    "deps": "npm --production --loglevel warn --prefix ./lambda/custom install",
+    "tslint": "tslint --format stylish --config tslint.json --project tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/justinpecott/hello-buttons-alexa-ts.git"
+  },
+  "keywords": [
+    "alexa",
+    "echo buttons"
+  ],
+  "author": "Justin Pecott",
+  "license": "ADSL"
+}

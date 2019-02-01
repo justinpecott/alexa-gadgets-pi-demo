@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "commonjs",
+    "strict": true,
+    "outDir": "lambda/custom",
+    "sourceMap": true,
+    "removeComments": true,
+    "preserveConstEnums": true,
+    "noImplicitAny": true
+  },    
+  "include": [
+      "src/**/*.ts"
+  ]
+}

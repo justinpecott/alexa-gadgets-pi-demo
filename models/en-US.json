@@ -1,0 +1,81 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "pi time",
+      "intents": [
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "LunchStatusIntent",
+          "slots": [],
+          "samples": [
+            "i'm at lunch",
+            "i'm eating lunch",
+            "i'm at coffee",
+            "i'm going to lunch",
+            "i'm going to coffee",
+            "i'm going to get lunch",
+            "i'm going to get coffee",
+            "i'm eating lunch",
+            "i'm driking coffee"
+          ]
+        },
+        {
+          "name": "MeetingStatusIntent",
+          "slots": [],
+          "samples": [
+            "i'm at a meeting",
+            "i'm in a meeting",
+            "i'm attending a meeting"
+          ]
+        },
+        {
+          "name": "BusyStatusIntent",
+          "slots": [],
+          "samples": [
+              "i'm busy",
+              "i'm busy right now",
+              "i'm slammed",
+              "i'm unavailable"
+            ]
+        },
+        {
+          "name": "TravelStatusIntent",
+          "slots": [],
+          "samples": [
+            "i'm travelling",
+            "i'm out of town",
+            "i'm out of the office",
+            "i'm on vacation"
+          ]
+        },
+        {
+          "name": "AvailableStatusIntent",
+          "slots": [],
+          "samples": [
+            "i'm available",
+            "i'm available to help",
+            "i'm free",
+            "i'm open",
+            "i'm happy to help",
+            "i'm here to help"
+          ]
+        }
+      ]
+    }
+  }
+}
