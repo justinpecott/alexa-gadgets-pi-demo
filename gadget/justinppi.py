@@ -17,15 +17,35 @@ class ExampleGadget(proto_gadget.ProtoGadgetBase):
     green = (0, 255, 0)
     white = (255, 255, 255)
     yellow = (255, 255, 0)
+    alexa_blue = (72, 198, 240)
+    alexa_grey = (20, 20, 20)
+
+    alexa_logo = [
+        alexa_grey, alexa_grey, alexa_blue, alexa_blue, alexa_blue, alexa_blue, alexa_grey, alexa_grey,
+        alexa_grey, alexa_blue, alexa_blue, alexa_blue, alexa_blue, alexa_blue, alexa_blue, alexa_grey,
+        alexa_blue, alexa_blue, alexa_blue, alexa_grey, alexa_grey, alexa_blue, alexa_blue, alexa_blue,
+        alexa_blue, alexa_blue, alexa_grey, alexa_grey, alexa_grey, alexa_grey, alexa_blue, alexa_blue,
+        alexa_blue, alexa_blue, alexa_grey, alexa_grey, alexa_grey, alexa_grey, alexa_blue, alexa_blue,
+        alexa_blue, alexa_blue, alexa_blue, alexa_grey, alexa_grey, alexa_blue, alexa_blue, alexa_blue,
+        alexa_grey, alexa_blue, alexa_blue, alexa_grey, alexa_blue, alexa_blue, alexa_blue, alexa_grey,
+        alexa_grey, alexa_grey, alexa_blue, alexa_blue, alexa_blue, alexa_blue, alexa_grey, alexa_grey
+        ]
 
     def on_statelistener_stateupdate(self, incoming_msg):
         namespace = incoming_msg.directive.header.namespace
         name = incoming_msg.directive.header.name
         states = incoming_msg.directive.payload.states
 
-        logging.info("Received Protobuf Message\n\tNamespace: " + namespace + "\tName: " + name)
+        log_msg = "Received Protobuf Message\n\tNamespace: " + namespace + "\tName: " + name
         for i in states:
-            logging.info("\tState name: " + i.name + "\t\t\tState Value: " + i.value)
+            log_msg = log_msg + "\n" + "\tState name: " + i.name + "\t\t\tState Value: " + i.value
+            if i.name == "wakeword" and i.value ==  "active":
+                self.sense.set_rotation(0)
+                self.sense.set_pixels(self.alexa_logo)
+            if i.name == "wakeword" and i.value == "cleared":
+                self.sense.clear()
+
+        logging.info(log_msg)
 
     def on_notification_setindicator(self, incoming_msg):
         namespace = incoming_msg.directive.header.namespace
@@ -35,9 +55,10 @@ class ExampleGadget(proto_gadget.ProtoGadgetBase):
         asset_id = incoming_msg.directive.payload.asset.assetId
         url = incoming_msg.directive.payload.asset.url
 
-        logging.info("Received Protobuf Message\n\tNamespace: " + namespace + "\tName: " + name)
-        logging.info("Persist visual indicator:" + persist_visual_indidcator + "\tPlay audio indicator: " +
-              play_audio_indicator + "\tAsset id: " + asset_id + "\tUrl: " + url)
+        log_msg = "Received Protobuf Message\n\tNamespace: " + namespace + "\tName: " + name + "\n"
+        log_msg = log_msg + "Persist visual indicator:" + persist_visual_indidcator + "\tPlay audio indicator: " + play_audio_indicator + "\tAsset id: " + asset_id + "\tUrl: " + url
+
+        logging.info(log_msg)
 
     def on_notification_clearindicator(self, incoming_msg):
         namespace = incoming_msg.directive.header.namespace
@@ -49,10 +70,17 @@ class ExampleGadget(proto_gadget.ProtoGadgetBase):
         name = incoming_msg.directive.header.name
         speechmarks_data = incoming_msg.directive.payload.speechmarksData
 
-        logging.info("Received Protobuf Message\n\tNamespace: " + namespace + "\tName: " + name)
+        log_msg = "Received Protobuf Message\n\tNamespace: " + namespace + "\tName: " + name
         for i in speechmarks_data:
-            logging.info("\tSpeechmark start offset (millis): " + str(
-                i.startOffsetInMilliSeconds) + "\tSpeechmark type: " + i.type + "\tSpeechmark value: " + i.value)
+            log_msg = log_msg + "\n" + "\tSpeechmark start offset (millis): " + str(
+                i.startOffsetInMilliSeconds) + "\tSpeechmark type: " + i.type + "\tSpeechmark value: " + i.value
+            if i.value == "sil":
+                self.sense.clear()
+            else:
+                self.sense.set_rotation(0)
+                self.sense.show_letter(i.value, text_colour=self.alexa_blue)
+
+        logging.info(log_msg)
 
     def on_musicdata_tempo(self, incoming_msg):
         namespace = incoming_msg.directive.header.namespace
@@ -79,15 +107,18 @@ class ExampleGadget(proto_gadget.ProtoGadgetBase):
         payload_type = incoming_msg.directive.payload.type
         token = incoming_msg.directive.payload.token
 
-        logging.info("Received Protobuf Message\n\tNamespace: " + namespace + "\t\t\tName: " + name)
-        logging.info("\tScheduled time: " + scheduled_time + "\tType: " + payload_type + "\tToken: " + token)
+        log_msg = "Received Protobuf Message\n\tNamespace: " + namespace + "\t\t\tName: " + name
+        log_msg = log_msg + "\n" + "\tScheduled time: " + scheduled_time + "\tType: " + payload_type + "\tToken: " + token
+
         if assets:
             for j in assets:
-                logging.info("\tAsset Id: " + j.assetId + "\tAsset Url: " + j.url)
+                log_msg = log_msg + "\n" + "\tAsset Id: " + j.assetId + "\tAsset Url: " + j.url
             for i in asset_play_order:
-                logging.info("\tEnd offset: " + i)
-            logging.info("\tLoop pause (millis): " + str(loop_pause_in_milliseconds))
-            logging.info("\tLoop count: " + str(loop_count) + "\tBackground alert asset: " + background_alert_asset)
+                log_msg = log_msg + "\n" + "\tEnd offset: " + i
+            log_msg = log_msg + "\n" + "\tLoop pause (millis): " + str(loop_pause_in_milliseconds)
+            log_msg = log_msg + "\n" + "\tLoop count: " + str(loop_count) + "\tBackground alert asset: " + background_alert_asset
+
+        logging.info(log_msg)
 
     def on_alerts_delete(self, incoming_msg):
         namespace = incoming_msg.directive.header.namespace
@@ -108,20 +139,25 @@ class ExampleGadget(proto_gadget.ProtoGadgetBase):
             status_value = status_obj["status"]
 
             if status_value == 1:
+                self.sense.set_rotation(0)
                 self.sense.show_message("Lunch!", text_colour=self.yellow, scroll_speed=.06)
             elif status_value == 2:
+                self.sense.set_rotation(0)
                 self.sense.show_message("Meeting!", text_colour=self.blue, scroll_speed=.06)
             elif status_value == 3:
+                self.sense.set_rotation(0)
                 self.sense.show_message("Busy!", text_colour=self.red, scroll_speed=.06)
             elif status_value == 4:
+                self.sense.set_rotation(0)
                 self.sense.show_message("Travelling!", text_colour=self.white, scroll_speed=.06)
             elif status_value == 5:
+                self.sense.set_rotation(0)
                 self.sense.show_message("Available!", text_colour=self.green, scroll_speed=.06)
 
             self.sense.clear()
-        elif namespace == "PiTimeGadget" and name == "SendMessage":
-            #message_obj = json.loads(payload)
-            self.sense.show_message("Send Message Here")
+        elif namespace == "PiTimeGadget" and name == "DisplayMessage":
+            message_obj = json.loads(payload)
+            self.sense.show_message(message_obj["message"])
             self.sense.clear()
         else:
             self.sense.show_message("What?!")

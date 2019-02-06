@@ -6,11 +6,11 @@
       "merge": {},
       "resources": {
         "manifest": {
-          "eTag": "3abd459cd6c60c9e78a6f911f4560ea4"
+          "eTag": "56a593837d23e88438a1454dd8528318"
         },
         "interactionModel": {
           "en-US": {
-            "eTag": "3a7dd40b40429ce1ccbb1965df815db2"
+            "eTag": "1ea9e70c37440790d9135d535e61c570"
           }
         },
         "lambda": [
@@ -23,7 +23,7 @@
             "codeUri": "lambda/custom",
             "functionName": "ask-custom-pi-time-default",
             "handler": "index.handler",
-            "revisionId": "975846ca-57ca-44ae-9321-4a84af3c265f",
+            "revisionId": "1292e10f-13aa-4154-a462-4dd493ae6ce1",
             "runtime": "nodejs8.10"
           }
         ]

@@ -6,6 +6,7 @@ export const handler = SkillBuilders.custom()
   .addRequestHandlers(
       Handlers.LaunchRequestHandler,
       Handlers.StatusIntentHandler,
+      Handlers.DisplayMessageHandler,
       Handlers.HelpIntentHandler,
       Handlers.CancelAndStopIntentHandler,
       Handlers.SessionEndedRequestHandler

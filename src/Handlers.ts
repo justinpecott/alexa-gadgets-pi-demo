@@ -27,7 +27,7 @@ export const LaunchRequestHandler: RequestHandler = {
   },
   handle(handlerInput: HandlerInput) {
     const speechText =
-      "Welcome to Pi Time! You can say set status or send message.";
+      "Welcome to Justin's Demo Gadget! You can say display message or tell me your status.";
 
     return handlerInput.responseBuilder
       .speak(speechText)
@@ -47,6 +47,7 @@ export const StatusIntentHandler: RequestHandler = {
     const request = handlerInput.requestEnvelope.request as IntentRequest;
     const statusCode = statusCodes[request.intent.name];
     let speechText = `Status set to ${statusMessages[request.intent.name]}`;
+    let tone = "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_01'/>";
 
     const direcive = {
       type: "Alexa.Endpoints.SendMessage",
@@ -59,14 +60,48 @@ export const StatusIntentHandler: RequestHandler = {
 
     if (!Utils.sendCustomDriective(handlerInput, direcive)) {
       speechText = "Something went wrong, sorry!";
+      tone = "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_negative_response_01'/>";
     }
 
     return handlerInput.responseBuilder
-      .speak(speechText)
-      .withSimpleCard("Pi Times Status Updated", speechText)
+      .speak(tone)
+      .withSimpleCard("Justin's Demo Gadget - Status", speechText)
       .getResponse();
   }
 };
+
+export const DisplayMessageHandler: RequestHandler = {
+    canHandle(handlerInput: HandlerInput) {
+      const request = handlerInput.requestEnvelope.request;
+      return (
+        request.type === "IntentRequest" && request.intent.name === "DisplayMessageIntent"
+      );
+    },
+    async handle(handlerInput: HandlerInput) {
+      const request = handlerInput.requestEnvelope.request as IntentRequest;
+      let speechText = request.intent.slots && request.intent.slots.message ? request.intent.slots.message.value : "?";
+      let tone = "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_01'/>";
+
+      const direcive = {
+        type: "Alexa.Endpoints.SendMessage",
+        namespace: "PiTimeGadget",
+        name: "DisplayMessage",
+        payload: {
+          message: speechText
+        }
+      };
+
+      if (!Utils.sendCustomDriective(handlerInput, direcive)) {
+        speechText = "Something went wrong, sorry!";
+        tone = "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_negative_response_01'/>";
+      }
+
+      return handlerInput.responseBuilder
+        .speak(tone)
+        .withSimpleCard("Justin's Demo Gadget - Display Message", speechText)
+        .getResponse();
+    }
+  };
 
 export const HelpIntentHandler: RequestHandler = {
   canHandle(handlerInput: HandlerInput) {
@@ -79,12 +114,12 @@ export const HelpIntentHandler: RequestHandler = {
     );
   },
   handle(handlerInput: HandlerInput) {
-    const speechText = "You can say hello to me!";
+    const speechText = "Tell me your status or say display message followed by the message to display!";
 
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
-      .withSimpleCard("Hello World", speechText)
+      .withSimpleCard("Justin's Demo Gadget", speechText)
       .getResponse();
   }
 };
@@ -104,7 +139,7 @@ export const CancelAndStopIntentHandler: RequestHandler = {
 
     return handlerInput.responseBuilder
       .speak(speechText)
-      .withSimpleCard("Hello World", speechText)
+      .withSimpleCard("Justin's Demo Gadget", speechText)
       .getResponse();
   }
 };

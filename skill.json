@@ -1,34 +1,11 @@
 {
   "manifest": {
-    "publishingInformation": {
-      "locales": {
-        "en-US": {
-          "summary": "Shows custom event and directive usage",
-          "examplePhrases": [
-            "Alexa, open pi time",
-            "Alexa, tell pi time that I'm busy",
-            "help"
-          ],
-          "keywords": [
-            "PiGadget",
-            "Raspberry Pi",
-            "Alexa Gadgets"
-          ],
-          "name": "Pi Time",
-          "description": "Sample Skill for Alexa Gadgets"
-        }
-      },
-      "isAvailableWorldwide": false,
-      "testingInstructions": "Nada",
-      "category": "KNOWLEDGE_AND_TRIVIA",
-      "distributionCountries": []
-    },
     "apis": {
       "custom": {
         "endpoint": {
-          "sourceDir": "lambda/custom",
-          "uri": "ask-custom-pi-time-default"
-        }
+          "uri": "arn:aws:lambda:us-east-1:486694442534:function:ask-custom-pi-time-default"
+        },
+        "interfaces": []
       }
     },
     "manifestVersion": "1.0",
@@ -38,6 +15,29 @@
       "isChildDirected": false,
       "isExportCompliant": true,
       "containsAds": false
+    },
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "name": "Pi Time",
+          "summary": "Shows custom event and directive usage",
+          "description": "Sample Skill for Alexa Gadgets",
+          "examplePhrases": [
+            "Alexa, open pi time",
+            "Alexa, tell pi time that I'm busy",
+            "help"
+          ],
+          "keywords": [
+            "PiGadget",
+            "Raspberry Pi",
+            "Alexa Gadgets"
+          ]
+        }
+      },
+      "isAvailableWorldwide": false,
+      "testingInstructions": "Nada",
+      "category": "KNOWLEDGE_AND_TRIVIA",
+      "distributionCountries": []
     }
   }
 }

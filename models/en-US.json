@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "pi time",
+      "invocationName": "justin's demo gadget",
       "intents": [
         {
           "name": "AMAZON.FallbackIntent",
@@ -24,7 +24,6 @@
           "slots": [],
           "samples": [
             "i'm at lunch",
-            "i'm eating lunch",
             "i'm at coffee",
             "i'm going to lunch",
             "i'm going to coffee",
@@ -47,11 +46,11 @@
           "name": "BusyStatusIntent",
           "slots": [],
           "samples": [
-              "i'm busy",
-              "i'm busy right now",
-              "i'm slammed",
-              "i'm unavailable"
-            ]
+            "i'm busy",
+            "i'm busy right now",
+            "i'm slammed",
+            "i'm unavailable"
+          ]
         },
         {
           "name": "TravelStatusIntent",
@@ -74,8 +73,28 @@
             "i'm happy to help",
             "i'm here to help"
           ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "DisplayMessageIntent",
+          "slots": [
+            {
+              "name": "message",
+              "type": "AMAZON.SearchQuery"
+            }
+          ],
+          "samples": [
+            "to display message {message}",
+            "display message {message}",
+            "display {message}",
+            "to display {message}"
+          ]
         }
-      ]
+      ],
+      "types": []
     }
   }
 }
