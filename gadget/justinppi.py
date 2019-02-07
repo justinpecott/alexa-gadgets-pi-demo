@@ -31,6 +31,141 @@ class ExampleGadget(proto_gadget.ProtoGadgetBase):
         alexa_grey, alexa_grey, alexa_blue, alexa_blue, alexa_blue, alexa_blue, alexa_grey, alexa_grey
         ]
 
+    R = (255, 0, 0)
+    W = (255, 255, 255)
+    P = (255, 0, 255)
+    B = (0, 0, 0)
+
+    question_mark = [
+        W, W, W, R, R, W, W, W,
+        W, W, R, W, W, R, W, W,
+        W, W, W, W, W, R, W, W,
+        W, W, W, W, R, W, W, W,
+        W, W, W, R, W, W, W, W,
+        W, W, W, R, W, W, W, W,
+        W, W, W, W, W, W, W, W,
+        W, W, W, R, W, W, W, W
+        ]
+
+    aei = [
+        B, B, B, B, B, B, B, B,
+        B, B, B, B, B, B, B, B,
+        R, R, R, R, R, R, R, R,
+        R, W, W, W, W, W, W, R,
+        R, B, B, B, B, B, B, R,
+        B, R, P, P, P, P, R, B,
+        B, B, R, R, R, R, B, B,
+        B, B, B, B, B, B, B, B
+        ]
+
+    bmp = [
+        B, B, B, B, B, B, B, B,
+        B, B, B, B, B, B, B, B,
+        B, B, B, B, B, B, B, B,
+        R, R, R, R, R, R, R, R,
+        R, R, R, R, R, R, R, R,
+        B, B, B, B, B, B, B, B,
+        B, B, B, B, B, B, B, B,
+        B, B, B, B, B, B, B, B
+        ]
+
+    cdgknstxyz = [
+        B, B, B, B, B, B, B, B,
+        B, B, B, B, B, B, B, B,
+        R, R, R, R, R, R, R, R,
+        R, W, W, W, W, W, W, R,
+        R, B, B, P, P, B, B, R,
+        B, R, W, W, W, W, R, B,
+        B, B, R, R, R, R, B, B,
+        B, B, B, B, B, B, B, B
+        ]
+    chjsh = [
+        B, B, B, B, B, B, B, B,
+        B, B, B, B, B, B, B, B,
+        R, R, R, R, R, R, R, R,
+        R, W, W, W, W, W, W, R,
+        R, B, B, B, B, B, B, R,
+        B, R, W, W, W, W, R, B,
+        B, B, R, R, R, R, B, B,
+        B, B, B, B, B, B, B, B
+        ]
+
+    fv = [
+        B, B, B, B, B, B, B, B,
+        B, B, B, B, B, B, B, B,
+        R, R, R, R, R, R, R, R,
+        R, W, W, W, W, W, W, R,
+        R, B, B, B, B, B, B, R,
+        B, R, P, P, P, P, R, B,
+        B, B, R, R, R, R, B, B,
+        B, B, B, B, B, B, B, B
+        ]
+
+    o = [
+        B, B, B, B, B, B, B, B,
+        B, B, B, B, B, B, B, B,
+        B, B, R, R, R, R, B, B,
+        B, R, W, W, W, W, R, B,
+        B, R, B, B, B, B, R, B,
+        B, R, P, P, P, P, R, B,
+        B, B, R, R, R, R, B, B,
+        B, B, B, B, B, B, B, B
+        ]
+
+    qwoo = [
+        B, B, B, B, B, B, B, B,
+        B, B, B, B, B, B, B, B,
+        B, B, R, R, R, R, B, B,
+        B, R, W, W, W, W, R, B,
+        B, R, B, B, B, B, R, B,
+        B, R, B, B, B, B, R, B,
+        B, B, R, R, R, R, B, B,
+        B, B, B, B, B, B, B, B
+        ]
+
+    r = [
+        B, B, B, B, B, B, B, B,
+        B, B, B, B, B, B, B, B,
+        R, R, R, R, R, R, R, R,
+        R, W, W, W, W, W, W, R,
+        R, B, B, B, B, B, B, R,
+        B, R, W, W, W, W, R, B,
+        B, B, R, R, R, R, B, B,
+        B, B, B, B, B, B, B, B
+        ]
+
+    th = [
+        B, B, B, B, B, B, B, B,
+        B, B, B, B, B, B, B, B,
+        R, R, R, R, R, R, R, R,
+        R, W, W, W, W, W, W, R,
+        R, B, B, P, P, B, B, R,
+        B, R, P, P, P, P, R, B,
+        B, B, R, R, R, R, B, B,
+        B, B, B, B, B, B, B, B
+        ]
+
+    visemes = {
+        "@": aei,
+        "a": aei,
+        "e": aei,
+        "E": aei,
+        "i": aei,
+        "p": bmp,
+        "sil": bmp,
+        "k": cdgknstxyz,
+        "s": cdgknstxyz,
+        "t": cdgknstxyz,
+        "S": chjsh,
+        "f": fv,
+        "o": o,
+        "O": qwoo,
+        "u": qwoo,
+        "r": r,
+        "T": th,
+        "?": question_mark
+        }
+
     def on_statelistener_stateupdate(self, incoming_msg):
         namespace = incoming_msg.directive.header.namespace
         name = incoming_msg.directive.header.name
@@ -76,9 +211,12 @@ class ExampleGadget(proto_gadget.ProtoGadgetBase):
                 i.startOffsetInMilliSeconds) + "\tSpeechmark type: " + i.type + "\tSpeechmark value: " + i.value
             if i.value == "sil":
                 self.sense.clear()
+            elif i.value in self.visemes:
+                self.sense.set_rotation(0)
+                self.sense.set_pixels(self.visemes[i.value])
             else:
                 self.sense.set_rotation(0)
-                self.sense.show_letter(i.value, text_colour=self.alexa_blue)
+                self.sense.set_pixels(self.visemes["?"])
 
         logging.info(log_msg)
 
