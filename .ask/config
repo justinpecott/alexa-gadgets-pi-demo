@@ -1,7 +1,7 @@
 {
   "deploy_settings": {
     "default": {
-      "skill_id": "amzn1.ask.skill.e608ffa4-9749-443f-9f22-7612b271ed66",
+      "skill_id": "amzn1.ask.skill.fe0d0b7a-a40e-4c8d-bba4-167dd4ad7e2d",
       "was_cloned": false,
       "merge": {},
       "resources": {
@@ -23,7 +23,7 @@
             "codeUri": "lambda/custom",
             "functionName": "ask-custom-pi-time-default",
             "handler": "index.handler",
-            "revisionId": "1292e10f-13aa-4154-a462-4dd493ae6ce1",
+            "revisionId": "2843dc2f-1657-42c6-b4b1-7999a4f857d2",
             "runtime": "nodejs8.10"
           }
         ]
