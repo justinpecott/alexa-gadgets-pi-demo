@@ -15,7 +15,7 @@ import logging
 import argparse
 
 # ------------------------------------------------
-# justinppi_config.ini constants
+# sense_hat_config.ini constants
 SENSE_HAT_CONFIG_INI = 'sense_hat_config.ini'
 
 # Default section keys
@@ -109,11 +109,18 @@ class SenseHatGadgetBase(BaseGadget, ABC):
                                    self.musicdata_cb,
                                    md_supported_types)
 
+        # Add Sense Hat Display Directive
+        custom_sense_cap = Capability(CapabilityTypes.ALEXAINTERFACE,
+                                     "SenseHatGadget",
+                                     "1.0",
+                                    self.custom_sense_cb)
+
         self.config.add_capability(sl_cap)
         self.config.add_capability(speechdata_cap)
         self.config.add_capability(alerts_cap)
         self.config.add_capability(notifications_cap)
         self.config.add_capability(musicdata_cap)
+        self.config.add_capability(custom_sense_cap)
 
     def start(self):
         """
@@ -256,6 +263,15 @@ class SenseHatGadgetBase(BaseGadget, ABC):
     def musicdata_cb(self, payload):
         """
         This is the callback method for the musicdata capability. Must be implemented in the sub class
+        :param payload:
+        :return:
+        """
+        pass
+
+    @abstractmethod
+    def custom_sense_cb(self, payload):
+        """
+        This is the callback method for the custom sense hat capability. Must be implemented in the sub class
         :param payload:
         :return:
         """

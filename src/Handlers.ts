@@ -51,7 +51,7 @@ export const StatusIntentHandler: RequestHandler = {
 
     const direcive = {
       type: "Alexa.Endpoints.SendMessage",
-      namespace: "StatusGaugeGadget",
+      namespace: "SenseHatGadget",
       name: "SetStatus",
       payload: {
         status: statusCode
@@ -84,7 +84,7 @@ export const DisplayMessageHandler: RequestHandler = {
 
       const direcive = {
         type: "Alexa.Endpoints.SendMessage",
-        namespace: "PiTimeGadget",
+        namespace: "SenseHatGadget",
         name: "DisplayMessage",
         payload: {
           message: speechText

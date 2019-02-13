@@ -5,6 +5,7 @@
 #
 from util import SenseHatGadgetBase
 from sense_hat import SenseHat
+import json
 import logging
 
 logger = logging.getLogger(__name__)
@@ -31,13 +32,13 @@ class SenseHatGadget(SenseHatGadgetBase):
 
         states = payload.directive.payload.states
         for i in states:
+            # Show an 'Alexa Logo' on wake word and clear it when complete
             if i.name == "wakeword":
                 if i.value == "active":
                     self.sense.set_rotation(0)
                     self.sense.set_pixels(self.alexa_logo)
                 elif i.value == "cleared":
                     self.sense.clear()
-
 
     def speechdata_cb(self, payload):
         logger.debug(payload)
@@ -50,6 +51,19 @@ class SenseHatGadget(SenseHatGadgetBase):
 
     def musicdata_cb(self, payload):
         logger.debug(payload)
+
+    def custom_sense_cb(self, payload):
+        logger.debug(payload)
+        name = payload.directive.header.name
+        custom_directive = payload.directive.payload.decode("utf8")
+
+        if name == "DisplayMessage":
+            message_obj = json.loads(custom_directive)
+            self.sense.show_message(message_obj["message"])
+            self.sense.clear()
+        else:
+            self.sense.show_message("What?!")
+            self.sense.clear()
 
 
 if __name__ == '__main__':
