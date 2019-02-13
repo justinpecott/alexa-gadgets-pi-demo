@@ -166,6 +166,96 @@ class ExampleGadget(proto_gadget.ProtoGadgetBase):
         "?": question_mark
         }
 
+    alarms = set()
+
+    set_alarm_check = [
+        R, R, R, R, R, R, R, R,
+        R, B, B, B, B, B, R, R,
+        R, B, B, B, B, R, B, R,
+        R, B, B, B, B, R, B, R,
+        R, R, B, B, R, B, B, R,
+        R, B, R, B, R, B, B, R,
+        R, B, B, R, B, B, B, R,
+        R, R, R, R, R, R, R, R
+        ]
+
+    set_alarm = [
+        R, R, R, R, R, R, R, R,
+        R, B, B, B, B, B, B, R,
+        R, B, R, R, R, R, B, R,
+        R, B, R, B, B, R, B, R,
+        R, B, R, R, R, R, B, R,
+        R, B, R, B, B, R, B, R,
+        R, B, B, B, B, B, B, R,
+        R, R, R, R, R, R, R, R
+        ]
+
+    set_timer = [
+        R, R, R, R, R, R, R, R,
+        R, B, B, B, B, B, B, R,
+        R, B, R, R, R, R, B, R,
+        R, B, R, R, R, R, B, R,
+        R, B, B, R, R, B, B, R,
+        R, B, B, R, R, B, B, R,
+        R, B, B, B, B, B, B, R,
+        R, R, R, R, R, R, R, R
+        ]
+
+    set_reminder = [
+        R, R, R, R, R, R, R, R,
+        R, B, B, B, B, B, B, R,
+        R, B, R, R, R, R, B, R,
+        R, B, R, B, B, R, B, R,
+        R, B, R, R, R, R, B, R,
+        R, B, R, B, R, B, B, R,
+        R, B, B, B, B, B, B, R,
+        R, R, R, R, R, R, R, R
+        ]
+
+    set_notification = [
+        R, R, R, R, R, R, R, R,
+        R, B, B, B, B, B, B, R,
+        R, B, R, R, R, R, B, R,
+        R, B, R, B, B, R, B, R,
+        R, B, R, B, B, R, B, R,
+        R, B, R, B, B, R, B, R,
+        R, B, B, B, B, B, B, R,
+        R, R, R, R, R, R, R, R
+        ]
+
+    active_alarm = [
+        B, B, B, B, B, B, B, B,
+        B, B, B, B, B, B, B, B,
+        R, R, R, R, R, R, R, R,
+        R, W, W, W, W, W, W, R,
+        R, B, B, P, P, B, B, R,
+        B, R, P, P, P, P, R, B,
+        B, B, R, R, R, R, B, B,
+        B, B, B, B, B, B, B, B
+        ]
+
+    clear_alarm = [
+        B, B, B, B, B, B, B, B,
+        B, B, B, B, B, B, B, B,
+        R, R, R, R, R, R, R, R,
+        R, W, W, W, W, W, W, R,
+        R, B, B, P, P, B, B, R,
+        B, R, P, P, P, P, R, B,
+        B, B, R, R, R, R, B, B,
+        B, B, B, B, B, B, B, B
+        ]
+
+    delete_alarm = [
+        B, B, B, B, B, B, B, B,
+        B, B, B, B, B, B, B, B,
+        R, R, R, R, R, R, R, R,
+        R, W, W, W, W, W, W, R,
+        R, B, B, P, P, B, B, R,
+        B, R, P, P, P, P, R, B,
+        B, B, R, R, R, R, B, B,
+        B, B, B, B, B, B, B, B
+        ]
+
     def on_statelistener_stateupdate(self, incoming_msg):
         namespace = incoming_msg.directive.header.namespace
         name = incoming_msg.directive.header.name
@@ -182,6 +272,7 @@ class ExampleGadget(proto_gadget.ProtoGadgetBase):
 
         logging.info(log_msg)
 
+    # TODO Make it do something
     def on_notification_setindicator(self, incoming_msg):
         namespace = incoming_msg.directive.header.namespace
         name = incoming_msg.directive.header.name
@@ -195,6 +286,7 @@ class ExampleGadget(proto_gadget.ProtoGadgetBase):
 
         logging.info(log_msg)
 
+    # TODO Make it do something
     def on_notification_clearindicator(self, incoming_msg):
         namespace = incoming_msg.directive.header.namespace
         name = incoming_msg.directive.header.name
@@ -220,6 +312,7 @@ class ExampleGadget(proto_gadget.ProtoGadgetBase):
 
         logging.info(log_msg)
 
+    # TODO Make it do something
     def on_musicdata_tempo(self, incoming_msg):
         namespace = incoming_msg.directive.header.namespace
         name = incoming_msg.directive.header.name
@@ -233,6 +326,7 @@ class ExampleGadget(proto_gadget.ProtoGadgetBase):
                 "\t\tTempo data start offset (millis): " + str(i.startOffsetInMilliSeconds) + "\tTempo value : " + str(
                     i.value))
 
+    # TODO Make it do something
     def on_alerts_set(self, incoming_msg):
         namespace = incoming_msg.directive.header.namespace
         name = incoming_msg.directive.header.name
@@ -244,6 +338,10 @@ class ExampleGadget(proto_gadget.ProtoGadgetBase):
         background_alert_asset = incoming_msg.directive.payload.backgroundAlertAsset
         payload_type = incoming_msg.directive.payload.type
         token = incoming_msg.directive.payload.token
+
+        self.alerts.add(token)
+
+
 
         log_msg = "Received Protobuf Message\n\tNamespace: " + namespace + "\t\t\tName: " + name
         log_msg = log_msg + "\n" + "\tScheduled time: " + scheduled_time + "\tType: " + payload_type + "\tToken: " + token
@@ -258,6 +356,7 @@ class ExampleGadget(proto_gadget.ProtoGadgetBase):
 
         logging.info(log_msg)
 
+    # TODO Make it do something
     def on_alerts_delete(self, incoming_msg):
         namespace = incoming_msg.directive.header.namespace
         name = incoming_msg.directive.header.name
@@ -271,7 +370,7 @@ class ExampleGadget(proto_gadget.ProtoGadgetBase):
         payload = incoming_msg.directive.payload.decode("utf8")
         logging.info("Received Custom Protobuf Message\n\tNamespace: " + namespace + "\t\t\tName: " + name + "\n\tPayload: " + payload)
 
-        if (namespace == "StatusGaugeGadget" or namespace == "PiTimeGadget") and name == "SetStatus":
+        if namespace == "StatusGaugeGadget" and name == "SetStatus":
             # Custom directive for the Alexa Status Gauge Skill
             status_obj = json.loads(payload)
             status_value = status_obj["status"]
