@@ -3,29 +3,17 @@
 
 # AMAZON.COM CONFIDENTIAL
 #
-from util import SenseHatGadgetBase
-from sense_hat import SenseHat
+from util import SenseHatGadgetBase, SenseDisplay
 import json
 import logging
 
 logger = logging.getLogger(__name__)
 
-
 class SenseHatGadget(SenseHatGadgetBase):
-    sense = SenseHat()
-    alexa_blue = (72, 198, 240)
-    alexa_grey = (20, 20, 20)
 
-    alexa_logo = [
-        alexa_grey, alexa_grey, alexa_blue, alexa_blue, alexa_blue, alexa_blue, alexa_grey, alexa_grey,
-        alexa_grey, alexa_blue, alexa_blue, alexa_blue, alexa_blue, alexa_blue, alexa_blue, alexa_grey,
-        alexa_blue, alexa_blue, alexa_blue, alexa_grey, alexa_grey, alexa_blue, alexa_blue, alexa_blue,
-        alexa_blue, alexa_blue, alexa_grey, alexa_grey, alexa_grey, alexa_grey, alexa_blue, alexa_blue,
-        alexa_blue, alexa_blue, alexa_grey, alexa_grey, alexa_grey, alexa_grey, alexa_blue, alexa_blue,
-        alexa_blue, alexa_blue, alexa_blue, alexa_grey, alexa_grey, alexa_blue, alexa_blue, alexa_blue,
-        alexa_grey, alexa_blue, alexa_blue, alexa_grey, alexa_blue, alexa_blue, alexa_blue, alexa_grey,
-        alexa_grey, alexa_grey, alexa_blue, alexa_blue, alexa_blue, alexa_blue, alexa_grey, alexa_grey
-        ]
+    def __init__(self):
+        self.display = SenseDisplay()
+        super().__init__()
 
     def state_listener_cb(self, payload):
         logger.debug(payload)
@@ -35,10 +23,9 @@ class SenseHatGadget(SenseHatGadgetBase):
             # Show an 'Alexa Logo' on wake word and clear it when complete
             if i.name == "wakeword":
                 if i.value == "active":
-                    self.sense.set_rotation(0)
-                    self.sense.set_pixels(self.alexa_logo)
+                    self.display.alexa_logo()
                 elif i.value == "cleared":
-                    self.sense.clear()
+                    self.display.clear()
 
     def speechdata_cb(self, payload):
         logger.debug(payload)
@@ -59,11 +46,11 @@ class SenseHatGadget(SenseHatGadgetBase):
 
         if name == "DisplayMessage":
             message_obj = json.loads(custom_directive)
-            self.sense.show_message(message_obj["message"])
-            self.sense.clear()
+            self.display.message(message_obj["message"])
+            self.display.clear()
         else:
-            self.sense.show_message("What?!")
-            self.sense.clear()
+            self.display.message("What?!")
+            self.display.clear()
 
 
 if __name__ == '__main__':
