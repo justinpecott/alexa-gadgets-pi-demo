@@ -29,6 +29,10 @@ class SenseHatGadget(SenseHatGadgetBase):
 
     def speechdata_cb(self, payload):
         logger.debug(payload)
+        speechmarks_data = payload.directive.payload.speechmarksData
+        for i in speechmarks_data:
+            # Show rudementary 'lip sync' images
+            self.display.speechmark(i.value)
 
     def alerts_cb(self, payload):
         logger.debug(payload)
