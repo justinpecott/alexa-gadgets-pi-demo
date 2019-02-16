@@ -28,21 +28,11 @@ class SenseHatGadget(SenseHatGadgetBase):
                     self.display.clear()
             # We can do something more complicated here but for now we'll just
             # Show alert set, alert active, and alert cleared
-            if i.name == "alarms":
+            elif i.name == "alarms" or i.name == "timers" or i.name == "reminders":
                 if i.value == "active":
-                    self.display.active_alarm()
+                    self.display.active_alert(i.name)
                 elif i.value == "cleared":
-                    self.display.clear_alarm()
-            if i.name == "timers":
-                if i.value == "active":
-                    self.display.active_alarm()
-                elif i.value == "cleared":
-                    self.display.clear_alarm()
-            if i.name == "reminders":
-                if i.value == "active":
-                    self.display.active_alarm()
-                elif i.value == "cleared":
-                    self.display.clear_alarm()
+                    self.display.clear_alert(i.name)
 
 
     def speechdata_cb(self, payload):
@@ -61,12 +51,7 @@ class SenseHatGadget(SenseHatGadgetBase):
             alert_type = payload.directive.payload.type
             # alert_token = payload.directive.payload.token
             # alert_time = payload.directive.payload.scheduledTime
-            if alert_type == "ALARM":
-                self.display.set_alarm()
-            elif alert_type == "TIMER":
-                self.display.set_alarm()
-            elif alert_type == "REMINDER":
-                self.display.set_alarm()
+            self.display.set_alert(alert_type)
         # elif name == "DeleteAlert":
         #     alert_token = payload.directive.payload.token
 

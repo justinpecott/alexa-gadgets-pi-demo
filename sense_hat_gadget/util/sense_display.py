@@ -4,61 +4,170 @@ from time import sleep
 class SenseDisplay():
     # Alexa Logo Blue
     _AB = (72, 198, 240)
-    # Alexa Logo Grey
-    _AG = (20, 20, 20)
+    # Grey
+    _GY = (32, 32, 32)
     # Red
-    _RD = (255, 0, 0)
+    _RD = (153, 0, 0)
     # White
-    _WH = (255, 255, 255)
+    _WH = (153, 153, 153)
     # Pink
-    _PK = (255, 0, 255)
+    _PK = (153, 0, 153)
     # Black / Off
     _BK = (0, 0, 0)
     # Green
-    _GR = (0, 255, 0)
+    _GR = (0, 153, 76)
+    # Orange
+    _OR = (153, 76, 0)
+    # Blue
+    _BL = (0, 76, 153)
+    # Purple
+    _PP = (76, 0, 153)
+    # Yellow
+    _YL = (153, 153, 0)
+    # Cyan
+    _CY = (0, 153, 153)
 
     _ALEXA_LOGO = [
-        _AG, _AG, _AB, _AB, _AB, _AB, _AG, _AG,
-        _AG, _AB, _AB, _AB, _AB, _AB, _AB, _AG,
-        _AB, _AB, _AB, _AG, _AG, _AB, _AB, _AB,
-        _AB, _AB, _AG, _AG, _AG, _AG, _AB, _AB,
-        _AB, _AB, _AG, _AG, _AG, _AG, _AB, _AB,
-        _AB, _AB, _AB, _AG, _AG, _AB, _AB, _AB,
-        _AG, _AB, _AB, _AG, _AB, _AB, _AB, _AG,
-        _AG, _AG, _AB, _AB, _AB, _AB, _AG, _AG
+        _GY, _GY, _AB, _AB, _AB, _AB, _GY, _GY,
+        _GY, _AB, _AB, _AB, _AB, _AB, _AB, _GY,
+        _AB, _AB, _AB, _GY, _GY, _AB, _AB, _AB,
+        _AB, _AB, _GY, _GY, _GY, _GY, _AB, _AB,
+        _AB, _AB, _GY, _GY, _GY, _GY, _AB, _AB,
+        _AB, _AB, _AB, _GY, _GY, _AB, _AB, _AB,
+        _GY, _AB, _AB, _GY, _AB, _AB, _AB, _GY,
+        _GY, _GY, _AB, _AB, _AB, _AB, _GY, _GY
         ]
 
     _ALARM = [
-        _RD, _RD, _RD, _RD, _RD, _RD, _RD, _RD,
-        _RD, _WH, _WH, _WH, _WH, _WH, _WH, _RD,
-        _RD, _WH, _RD, _RD, _RD, _RD, _WH, _RD,
-        _RD, _WH, _RD, _WH, _WH, _RD, _WH, _RD,
-        _RD, _WH, _RD, _RD, _RD, _RD, _WH, _RD,
-        _RD, _WH, _RD, _WH, _WH, _RD, _WH, _RD,
-        _RD, _WH, _WH, _WH, _WH, _WH, _WH, _RD,
-        _RD, _RD, _RD, _RD, _RD, _RD, _RD, _RD
+        _PP, _PP, _PP, _PP, _PP, _PP, _PP, _PP,
+        _PP, _WH, _WH, _WH, _WH, _WH, _WH, _PP,
+        _PP, _WH, _PP, _PP, _PP, _PP, _WH, _PP,
+        _PP, _WH, _PP, _WH, _WH, _PP, _WH, _PP,
+        _PP, _WH, _PP, _PP, _PP, _PP, _WH, _PP,
+        _PP, _WH, _PP, _WH, _WH, _PP, _WH, _PP,
+        _PP, _WH, _WH, _WH, _WH, _WH, _WH, _PP,
+        _PP, _PP, _PP, _PP, _PP, _PP, _PP, _PP
         ]
 
     _ALARM_ALT = [
         _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH,
-        _WH, _RD, _RD, _RD, _RD, _RD, _RD, _WH,
-        _WH, _RD, _WH, _WH, _WH, _WH, _RD, _WH,
-        _WH, _RD, _WH, _RD, _RD, _WH, _RD, _WH,
-        _WH, _RD, _WH, _WH, _WH, _WH, _RD, _WH,
-        _WH, _RD, _WH, _RD, _RD, _WH, _RD, _WH,
-        _WH, _RD, _RD, _RD, _RD, _RD, _RD, _WH,
+        _WH, _PP, _PP, _PP, _PP, _PP, _PP, _WH,
+        _WH, _PP, _WH, _WH, _WH, _WH, _PP, _WH,
+        _WH, _PP, _WH, _PP, _PP, _WH, _PP, _WH,
+        _WH, _PP, _WH, _WH, _WH, _WH, _PP, _WH,
+        _WH, _PP, _WH, _PP, _PP, _WH, _PP, _WH,
+        _WH, _PP, _PP, _PP, _PP, _PP, _PP, _WH,
         _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH
         ]
 
     _ALARM_CLEAR = [
-        _RD, _RD, _RD, _RD, _RD, _RD, _RD, _RD,
-        _RD, _WH, _WH, _WH, _WH, _WH, _GR, _RD,
-        _RD, _WH, _RD, _RD, _RD, _GR, _WH, _RD,
-        _RD, _WH, _RD, _WH, _WH, _GR, _WH, _RD,
-        _RD, _GR, _RD, _RD, _GR, _RD, _WH, _RD,
-        _RD, _WH, _GR, _WH, _GR, _RD, _WH, _RD,
-        _RD, _WH, _WH, _GR, _WH, _WH, _WH, _RD,
-        _RD, _RD, _RD, _RD, _RD, _RD, _RD, _RD
+        _PP, _PP, _PP, _PP, _PP, _PP, _PP, _PP,
+        _PP, _WH, _WH, _WH, _WH, _WH, _RD, _PP,
+        _PP, _WH, _PP, _PP, _PP, _RD, _WH, _PP,
+        _PP, _WH, _PP, _WH, _WH, _RD, _WH, _PP,
+        _PP, _RD, _PP, _PP, _RD, _PP, _WH, _PP,
+        _PP, _WH, _RD, _WH, _RD, _PP, _WH, _PP,
+        _PP, _WH, _WH, _RD, _WH, _WH, _WH, _PP,
+        _PP, _PP, _PP, _PP, _PP, _PP, _PP, _PP
+        ]
+
+    _TIMER = [
+        _OR, _OR, _OR, _OR, _OR, _OR, _OR, _OR,
+        _OR, _WH, _WH, _WH, _WH, _WH, _WH, _OR,
+        _OR, _WH, _OR, _OR, _OR, _OR, _WH, _OR,
+        _OR, _WH, _OR, _OR, _OR, _OR, _WH, _OR,
+        _OR, _WH, _WH, _OR, _OR, _WH, _WH, _OR,
+        _OR, _WH, _WH, _OR, _OR, _WH, _WH, _OR,
+        _OR, _WH, _WH, _WH, _WH, _WH, _WH, _OR,
+        _OR, _OR, _OR, _OR, _OR, _OR, _OR, _OR,
+        ]
+
+    _TIMER_ALT = [
+        _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH,
+        _WH, _OR, _OR, _OR, _OR, _OR, _OR, _WH,
+        _WH, _OR, _WH, _WH, _WH, _WH, _OR, _WH,
+        _WH, _OR, _WH, _WH, _WH, _WH, _OR, _WH,
+        _WH, _OR, _OR, _WH, _WH, _OR, _OR, _WH,
+        _WH, _OR, _OR, _WH, _WH, _OR, _OR, _WH,
+        _WH, _OR, _OR, _OR, _OR, _OR, _OR, _WH,
+        _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH
+        ]
+
+    _TIMER_CLEAR = [
+        _OR, _OR, _OR, _OR, _OR, _OR, _OR, _OR,
+        _OR, _WH, _WH, _WH, _WH, _WH, _RD, _OR,
+        _OR, _WH, _OR, _OR, _OR, _RD, _WH, _OR,
+        _OR, _WH, _OR, _OR, _OR, _RD, _WH, _OR,
+        _OR, _RD, _WH, _OR, _RD, _WH, _WH, _OR,
+        _OR, _WH, _RD, _OR, _RD, _WH, _WH, _OR,
+        _OR, _WH, _WH, _RD, _WH, _WH, _WH, _OR,
+        _OR, _OR, _OR, _OR, _OR, _OR, _OR, _OR,
+        ]
+
+    _REMINDER = [
+        _BL, _BL, _BL, _BL, _BL, _BL, _BL, _BL,
+        _BL, _WH, _WH, _WH, _WH, _WH, _WH, _BL,
+        _BL, _WH, _BL, _BL, _BL, _BL, _WH, _BL,
+        _BL, _WH, _BL, _WH, _WH, _BL, _WH, _BL,
+        _BL, _WH, _BL, _BL, _BL, _BL, _WH, _BL,
+        _BL, _WH, _BL, _WH, _BL, _WH, _WH, _BL,
+        _BL, _WH, _WH, _WH, _WH, _WH, _WH, _BL,
+        _BL, _BL, _BL, _BL, _BL, _BL, _BL, _BL
+    ]
+
+    _REMINDER_ALT = [
+        _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH,
+        _WH, _BL, _BL, _BL, _BL, _BL, _BL, _WH,
+        _WH, _BL, _WH, _WH, _WH, _WH, _BL, _WH,
+        _WH, _BL, _WH, _BL, _BL, _WH, _BL, _WH,
+        _WH, _BL, _WH, _WH, _WH, _WH, _BL, _WH,
+        _WH, _BL, _WH, _BL, _WH, _BL, _BL, _WH,
+        _WH, _BL, _BL, _BL, _BL, _BL, _BL, _WH,
+        _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH
+    ]
+
+    _REMINDER_CLEAR = [
+        _BL, _BL, _BL, _BL, _BL, _BL, _BL, _BL,
+        _BL, _WH, _WH, _WH, _WH, _WH, _RD, _BL,
+        _BL, _WH, _BL, _BL, _BL, _RD, _WH, _BL,
+        _BL, _WH, _BL, _WH, _WH, _RD, _WH, _BL,
+        _BL, _RD, _BL, _BL, _RD, _BL, _WH, _BL,
+        _BL, _WH, _RD, _WH, _RD, _WH, _WH, _BL,
+        _BL, _WH, _WH, _RD, _WH, _WH, _WH, _BL,
+        _BL, _BL, _BL, _BL, _BL, _BL, _BL, _BL
+    ]
+
+    _NOTIFICATION = [
+        _GR, _GR, _GR, _GR, _GR, _GR, _GR, _GR,
+        _GR, _WH, _WH, _WH, _WH, _WH, _WH, _GR,
+        _GR, _WH, _GR, _GR, _GR, _GR, _WH, _GR,
+        _GR, _WH, _GR, _WH, _WH, _GR, _WH, _GR,
+        _GR, _WH, _GR, _WH, _WH, _GR, _WH, _GR,
+        _GR, _WH, _GR, _WH, _WH, _GR, _WH, _GR,
+        _GR, _WH, _WH, _WH, _WH, _WH, _WH, _GR,
+        _GR, _GR, _GR, _GR, _GR, _GR, _GR, _GR
+        ]
+
+    _NOTIFICATION_ALT = [
+        _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH,
+        _WH, _GR, _GR, _GR, _GR, _GR, _GR, _WH,
+        _WH, _GR, _WH, _WH, _WH, _WH, _GR, _WH,
+        _WH, _GR, _WH, _GR, _GR, _WH, _GR, _WH,
+        _WH, _GR, _WH, _GR, _GR, _WH, _GR, _WH,
+        _WH, _GR, _WH, _GR, _GR, _WH, _GR, _WH,
+        _WH, _GR, _GR, _GR, _GR, _GR, _GR, _WH,
+        _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH
+        ]
+
+    _NOTIFICATION_CLEAR = [
+        _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH,
+        _WH, _GR, _GR, _GR, _GR, _GR, _RD, _WH,
+        _WH, _GR, _WH, _WH, _WH, _RD, _GR, _WH,
+        _WH, _GR, _WH, _GR, _GR, _RD, _GR, _WH,
+        _WH, _RD, _WH, _GR, _RD, _WH, _GR, _WH,
+        _WH, _GR, _RD, _GR, _RD, _WH, _GR, _WH,
+        _WH, _GR, _GR, _RD, _GR, _GR, _GR, _WH,
+        _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH
         ]
 
     _QUESTION_MARK = [
@@ -192,6 +301,37 @@ class SenseDisplay():
         "?": _QUESTION_MARK
         }
 
+    _ALERT_LOGOS = {
+        "alarms": _ALARM,
+        "ALARM": _ALARM,
+        "alarms_alt": _ALARM_ALT,
+        "alarms_clear": _ALARM_CLEAR,
+        "timers": _TIMER,
+        "TIMER": _TIMER,
+        "timers_alt": _TIMER_ALT,
+        "timers_clear": _TIMER_CLEAR,
+        "reminders": _REMINDER,
+        "REMINDER": _REMINDER,
+        "reminders_alt": _REMINDER_ALT,
+        "reminders_clear": _REMINDER_CLEAR,
+    }
+
+    _COLORS = {
+        "grey": _GY,
+        "gray": _GY,
+        "red": _RD,
+        "white": _WH,
+        "pink": _PK,
+        "black": _BK,
+        "off": _BK,
+        "green": _GR,
+        "orange": _OR,
+        "blue": _BL,
+        "purple": _PP,
+        "yellow": _YL,
+        "cyan": _CY
+    }
+
     def __init__(self):
         self.sense = SenseHat()
 
@@ -215,23 +355,23 @@ class SenseDisplay():
             self.sense.set_rotation(0)
             self.sense.set_pixels(self._VISEMES["?"])
 
-    def set_alarm(self):
+    def set_alert(self, alert_type):
         self.sense.set_rotation(0)
-        self.sense.set_pixels(self._ALARM)
+        self.sense.set_pixels(self._ALERT_LOGOS[alert_type])
         sleep(2)
         self.clear()
 
-    def active_alarm(self):
+    def active_alert(self, alert_type):
         self.sense.set_rotation(0)
         for x in range(0, 4):
-            self.sense.set_pixels(self._ALARM)
+            self.sense.set_pixels(self._ALERT_LOGOS[alert_type])
             sleep(.5)
-            self.sense.set_pixels(self._ALARM_ALT)
+            self.sense.set_pixels(self._ALERT_LOGOS[alert_type + "_alt"])
             sleep(.5)
         self.clear()
 
-    def clear_alarm(self):
+    def clear_alert(self, alert_type):
         self.sense.set_rotation(0)
-        self.sense.set_pixels(self._ALARM_CLEAR)
+        self.sense.set_pixels(self._ALERT_LOGOS[alert_type + "_clear"])
         sleep(2)
         self.clear()
