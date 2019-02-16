@@ -10,7 +10,7 @@
         },
         "interactionModel": {
           "en-US": {
-            "eTag": "1ea9e70c37440790d9135d535e61c570"
+            "eTag": "ece34173be8ec0919d8d25e6fbf575b5"
           }
         },
         "lambda": [
@@ -23,7 +23,7 @@
             "codeUri": "lambda/custom",
             "functionName": "ask-custom-pi-time-default",
             "handler": "index.handler",
-            "revisionId": "ee1d8675-b1ff-41ec-9f11-c12915a21375",
+            "revisionId": "defe5f1f-8a09-4bd6-ac72-e76e0599a7b0",
             "runtime": "nodejs8.10"
           }
         ]

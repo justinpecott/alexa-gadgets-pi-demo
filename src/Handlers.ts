@@ -2,22 +2,6 @@ import { ErrorHandler, HandlerInput, RequestHandler } from "ask-sdk-core";
 import { IntentRequest } from "ask-sdk-model";
 import * as Utils from "./Utils";
 
-const statusCodes: { [intentName: string]: number } = {
-  LunchStatusIntent: 1,
-  MeetingStatusIntent: 2,
-  BusyStatusIntent: 3,
-  TravelStatusIntent: 4,
-  AvailableStatusIntent: 5
-};
-
-const statusMessages: { [intentName: string]: string } = {
-  LunchStatusIntent: "Lunch",
-  MeetingStatusIntent: "In a Meeting",
-  BusyStatusIntent: "Busy",
-  TravelStatusIntent: "Away of Travel",
-  AvailableStatusIntent: "Available"
-};
-
 /**
  * Handles 'Alexa, open ...'. Just give some general info to point the user in the right direction.
  */
@@ -27,45 +11,11 @@ export const LaunchRequestHandler: RequestHandler = {
   },
   handle(handlerInput: HandlerInput) {
     const speechText =
-      "Welcome to Justin's Demo Gadget! You can say display message or tell me your status.";
+      "Welcome to Sense Hat! You can say display message followed by the message to display!.";
 
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
-      .getResponse();
-  }
-};
-
-export const StatusIntentHandler: RequestHandler = {
-  canHandle(handlerInput: HandlerInput) {
-    const request = handlerInput.requestEnvelope.request;
-    return (
-      request.type === "IntentRequest" && request.intent.name in statusCodes
-    );
-  },
-  async handle(handlerInput: HandlerInput) {
-    const request = handlerInput.requestEnvelope.request as IntentRequest;
-    const statusCode = statusCodes[request.intent.name];
-    let speechText = `Status set to ${statusMessages[request.intent.name]}`;
-    let tone = "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_01'/>";
-
-    const direcive = {
-      type: "Alexa.Endpoints.SendMessage",
-      namespace: "SenseHatGadget",
-      name: "SetStatus",
-      payload: {
-        status: statusCode
-      }
-    };
-
-    if (!Utils.sendCustomDriective(handlerInput, direcive)) {
-      speechText = "Something went wrong, sorry!";
-      tone = "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_negative_response_01'/>";
-    }
-
-    return handlerInput.responseBuilder
-      .speak(tone)
-      .withSimpleCard("Justin's Demo Gadget - Status", speechText)
       .getResponse();
   }
 };
@@ -98,7 +48,6 @@ export const DisplayMessageHandler: RequestHandler = {
 
       return handlerInput.responseBuilder
         .speak(tone)
-        .withSimpleCard("Justin's Demo Gadget - Display Message", speechText)
         .getResponse();
     }
   };
@@ -114,12 +63,11 @@ export const HelpIntentHandler: RequestHandler = {
     );
   },
   handle(handlerInput: HandlerInput) {
-    const speechText = "Tell me your status or say display message followed by the message to display!";
+    const speechText = "Tell to display message followed by the message to display!";
 
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
-      .withSimpleCard("Justin's Demo Gadget", speechText)
       .getResponse();
   }
 };
@@ -139,7 +87,6 @@ export const CancelAndStopIntentHandler: RequestHandler = {
 
     return handlerInput.responseBuilder
       .speak(speechText)
-      .withSimpleCard("Justin's Demo Gadget", speechText)
       .getResponse();
   }
 };
