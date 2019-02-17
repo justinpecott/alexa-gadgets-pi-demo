@@ -1,6 +1,7 @@
 from sense_hat import SenseHat
 from time import sleep
 
+
 class SenseDisplay():
     # Alexa Logo Blue
     _AB = (72, 198, 240)
@@ -36,7 +37,7 @@ class SenseDisplay():
         _AB, _AB, _AB, _GY, _GY, _AB, _AB, _AB,
         _GY, _AB, _AB, _GY, _AB, _AB, _AB, _GY,
         _GY, _GY, _AB, _AB, _AB, _AB, _GY, _GY
-        ]
+    ]
 
     _ALARM = [
         _PP, _PP, _PP, _PP, _PP, _PP, _PP, _PP,
@@ -47,7 +48,7 @@ class SenseDisplay():
         _PP, _WH, _PP, _WH, _WH, _PP, _WH, _PP,
         _PP, _WH, _WH, _WH, _WH, _WH, _WH, _PP,
         _PP, _PP, _PP, _PP, _PP, _PP, _PP, _PP
-        ]
+    ]
 
     _ALARM_ALT = [
         _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH,
@@ -58,7 +59,7 @@ class SenseDisplay():
         _WH, _PP, _WH, _PP, _PP, _WH, _PP, _WH,
         _WH, _PP, _PP, _PP, _PP, _PP, _PP, _WH,
         _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH
-        ]
+    ]
 
     _ALARM_CLEAR = [
         _PP, _PP, _PP, _PP, _PP, _PP, _PP, _PP,
@@ -69,7 +70,7 @@ class SenseDisplay():
         _PP, _WH, _RD, _WH, _RD, _PP, _WH, _PP,
         _PP, _WH, _WH, _RD, _WH, _WH, _WH, _PP,
         _PP, _PP, _PP, _PP, _PP, _PP, _PP, _PP
-        ]
+    ]
 
     _TIMER = [
         _OR, _OR, _OR, _OR, _OR, _OR, _OR, _OR,
@@ -80,7 +81,7 @@ class SenseDisplay():
         _OR, _WH, _WH, _OR, _OR, _WH, _WH, _OR,
         _OR, _WH, _WH, _WH, _WH, _WH, _WH, _OR,
         _OR, _OR, _OR, _OR, _OR, _OR, _OR, _OR,
-        ]
+    ]
 
     _TIMER_ALT = [
         _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH,
@@ -91,7 +92,7 @@ class SenseDisplay():
         _WH, _OR, _OR, _WH, _WH, _OR, _OR, _WH,
         _WH, _OR, _OR, _OR, _OR, _OR, _OR, _WH,
         _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH
-        ]
+    ]
 
     _TIMER_CLEAR = [
         _OR, _OR, _OR, _OR, _OR, _OR, _OR, _OR,
@@ -102,7 +103,7 @@ class SenseDisplay():
         _OR, _WH, _RD, _OR, _RD, _WH, _WH, _OR,
         _OR, _WH, _WH, _RD, _WH, _WH, _WH, _OR,
         _OR, _OR, _OR, _OR, _OR, _OR, _OR, _OR,
-        ]
+    ]
 
     _REMINDER = [
         _BL, _BL, _BL, _BL, _BL, _BL, _BL, _BL,
@@ -146,7 +147,7 @@ class SenseDisplay():
         _GR, _WH, _GR, _WH, _WH, _GR, _WH, _GR,
         _GR, _WH, _WH, _WH, _WH, _WH, _WH, _GR,
         _GR, _GR, _GR, _GR, _GR, _GR, _GR, _GR
-        ]
+    ]
 
     _NOTIFICATION_ALT = [
         _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH,
@@ -157,7 +158,7 @@ class SenseDisplay():
         _WH, _GR, _WH, _GR, _GR, _WH, _GR, _WH,
         _WH, _GR, _GR, _GR, _GR, _GR, _GR, _WH,
         _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH
-        ]
+    ]
 
     _NOTIFICATION_CLEAR = [
         _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH,
@@ -168,7 +169,18 @@ class SenseDisplay():
         _WH, _GR, _RD, _GR, _RD, _WH, _GR, _WH,
         _WH, _GR, _GR, _RD, _GR, _GR, _GR, _WH,
         _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH
-        ]
+    ]
+
+    _MUSIC = [
+        _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK,
+        _BK, _BK, _YL, _YL, _YL, _YL, _YL, _BK,
+        _BK, _BK, _YL, _YL, _YL, _YL, _YL, _BK,
+        _BK, _BK, _YL, _BK, _BK, _BK, _YL, _BK,
+        _BK, _BK, _YL, _BK, _BK, _BK, _YL, _BK,
+        _BK, _YL, _YL, _BK, _BK, _YL, _YL, _BK,
+        _BK, _YL, _YL, _BK, _BK, _YL, _YL, _BK,
+        _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK
+    ]
 
     _QUESTION_MARK = [
         _WH, _WH, _WH, _RD, _RD, _WH, _WH, _WH,
@@ -179,7 +191,7 @@ class SenseDisplay():
         _WH, _WH, _WH, _RD, _WH, _WH, _WH, _WH,
         _WH, _WH, _WH, _WH, _WH, _WH, _WH, _WH,
         _WH, _WH, _WH, _RD, _WH, _WH, _WH, _WH
-        ]
+    ]
 
     _AEI = [
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK,
@@ -190,7 +202,7 @@ class SenseDisplay():
         _BK, _RD, _PK, _PK, _PK, _PK, _RD, _BK,
         _BK, _BK, _RD, _RD, _RD, _RD, _BK, _BK,
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK
-        ]
+    ]
 
     _BMP = [
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK,
@@ -201,7 +213,7 @@ class SenseDisplay():
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK,
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK,
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK
-        ]
+    ]
 
     _CDGKNSTXYZ = [
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK,
@@ -212,7 +224,7 @@ class SenseDisplay():
         _BK, _RD, _WH, _WH, _WH, _WH, _RD, _BK,
         _BK, _BK, _RD, _RD, _RD, _RD, _BK, _BK,
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK
-        ]
+    ]
 
     _CHJSH = [
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK,
@@ -223,7 +235,7 @@ class SenseDisplay():
         _BK, _RD, _WH, _WH, _WH, _WH, _RD, _BK,
         _BK, _BK, _RD, _RD, _RD, _RD, _BK, _BK,
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK
-        ]
+    ]
 
     _FV = [
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK,
@@ -234,7 +246,7 @@ class SenseDisplay():
         _BK, _RD, _PK, _PK, _PK, _PK, _RD, _BK,
         _BK, _BK, _RD, _RD, _RD, _RD, _BK, _BK,
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK
-        ]
+    ]
 
     _O = [
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK,
@@ -245,7 +257,7 @@ class SenseDisplay():
         _BK, _RD, _PK, _PK, _PK, _PK, _RD, _BK,
         _BK, _BK, _RD, _RD, _RD, _RD, _BK, _BK,
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK
-        ]
+    ]
 
     _QWOO = [
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK,
@@ -256,7 +268,7 @@ class SenseDisplay():
         _BK, _RD, _BK, _BK, _BK, _BK, _RD, _BK,
         _BK, _BK, _RD, _RD, _RD, _RD, _BK, _BK,
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK
-        ]
+    ]
 
     _R = [
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK,
@@ -267,7 +279,7 @@ class SenseDisplay():
         _BK, _RD, _WH, _WH, _WH, _WH, _RD, _BK,
         _BK, _BK, _RD, _RD, _RD, _RD, _BK, _BK,
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK
-        ]
+    ]
 
     _TH = [
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK,
@@ -278,7 +290,7 @@ class SenseDisplay():
         _BK, _RD, _PK, _PK, _PK, _PK, _RD, _BK,
         _BK, _BK, _RD, _RD, _RD, _RD, _BK, _BK,
         _BK, _BK, _BK, _BK, _BK, _BK, _BK, _BK
-        ]
+    ]
 
     _VISEMES = {
         "@": _AEI,
@@ -299,7 +311,7 @@ class SenseDisplay():
         "r": _R,
         "T": _TH,
         "?": _QUESTION_MARK
-        }
+    }
 
     _ALERT_LOGOS = {
         "alarms": _ALARM,
@@ -314,6 +326,9 @@ class SenseDisplay():
         "REMINDER": _REMINDER,
         "reminders_alt": _REMINDER_ALT,
         "reminders_clear": _REMINDER_CLEAR,
+        "notifications": _NOTIFICATION,
+        "notifications_alt": _NOTIFICATION_ALT,
+        "notifications_clear": _NOTIFICATION_CLEAR
     }
 
     _COLORS = {
@@ -374,4 +389,13 @@ class SenseDisplay():
         self.sense.set_rotation(0)
         self.sense.set_pixels(self._ALERT_LOGOS[alert_type + "_clear"])
         sleep(2)
+        self.clear()
+
+    def show_bpm(self, bpm):
+        self.sense.set_rotation(0)
+        self.sense.set_pixels(self._MUSIC)
+        sleep(.5)
+        self.sense.show_message(str(bpm), text_colour=self._YL)
+        self.sense.set_pixels(self._MUSIC)
+        sleep(.5)
         self.clear()

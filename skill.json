@@ -4,7 +4,7 @@
       "custom": {
         "endpoint": {
           "sourceDir": "lambda/custom",
-          "uri": "ask-custom-pi-time-default"
+          "uri": "ask-custom-sense-hat-default"
         },
         "interfaces": []
       }
@@ -20,16 +20,15 @@
     "publishingInformation": {
       "locales": {
         "en-US": {
-          "name": "Pi Time",
-          "summary": "Shows custom event and directive usage",
+          "name": "Sense Hat",
+          "summary": "Shows ALexa Gadget Interface Usage",
           "description": "Sample Skill for Alexa Gadgets",
           "examplePhrases": [
-            "Alexa, open pi time",
-            "Alexa, tell pi time that I'm busy",
-            "help"
+            "Alexa, open sense hat",
+            "Alexam tell sense hat to display message hello"
           ],
           "keywords": [
-            "PiGadget",
+            "PyAGT",
             "Raspberry Pi",
             "Alexa Gadgets"
           ]

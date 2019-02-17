@@ -9,6 +9,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+
 class SenseHatGadget(SenseHatGadgetBase):
 
     def __init__(self):
@@ -34,7 +35,6 @@ class SenseHatGadget(SenseHatGadgetBase):
                 elif i.value == "cleared":
                     self.display.clear_alert(i.name)
 
-
     def speechdata_cb(self, payload):
         logger.debug(payload)
         speechmarks_data = payload.directive.payload.speechmarksData
@@ -57,9 +57,22 @@ class SenseHatGadget(SenseHatGadgetBase):
 
     def notifications_cb(self, payload):
         logger.debug(payload)
+        # We can do something more complicated here but for now we'll just
+        # Show notification active and notification cleared
+        name = payload.directive.header.name
+        if name == "SetIndicator":
+            # persist_indicator = payload.directive.payload.persistVisualIndicator
+            # audio_indicator = payload.directive.payload.playAudioIndicator
+            self.display.active_alert("notifications")
+        elif name == "ClearIndicator":
+            self.display.clear_alert("notifications")
 
     def musicdata_cb(self, payload):
         logger.debug(payload)
+        tempo_data = payload.directive.payload.tempoData
+        for i in tempo_data:
+            if i.value > 0:
+                self.display.show_bpm(i.value)
 
     def custom_sense_cb(self, payload):
         logger.debug(payload)
@@ -77,7 +90,8 @@ class SenseHatGadget(SenseHatGadgetBase):
 
 if __name__ == '__main__':
     # Log to file as well
-    file_handler_format = logging.Formatter("%(levelname)s : %(asctime)s --\n%(message)s\n")
+    file_handler_format = logging.Formatter(
+        "%(levelname)s : %(asctime)s --\n%(message)s\n")
     file_handler = logging.FileHandler("sense_hat.log", mode='w')
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(file_handler_format)
