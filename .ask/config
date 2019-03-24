@@ -22,7 +22,7 @@
             "codeUri": "lambda/custom",
             "functionName": "ask-custom-sense-hat-default",
             "handler": "index.handler",
-            "revisionId": "418e6d3f-ae77-4726-bc7b-c90584dc860f",
+            "revisionId": "78d2cda0-22ec-4ee1-a3a2-a3e482ccac18",
             "runtime": "nodejs8.10"
           }
         ]

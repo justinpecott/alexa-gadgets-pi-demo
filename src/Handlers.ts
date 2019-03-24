@@ -1,5 +1,5 @@
 import { ErrorHandler, HandlerInput, RequestHandler } from "ask-sdk-core";
-import { IntentRequest } from "ask-sdk-model";
+import { Directive, IntentRequest } from "ask-sdk-model";
 import * as Utils from "./Utils";
 
 /**
@@ -29,8 +29,9 @@ export const DisplayMessageHandler: RequestHandler = {
     },
     async handle(handlerInput: HandlerInput) {
       const request = handlerInput.requestEnvelope.request as IntentRequest;
-      let speechText = request.intent.slots && request.intent.slots.message ? request.intent.slots.message.value : "?";
-      let tone = "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_01'/>";
+      const speechText = request.intent.slots && request.intent.slots.message ?
+            request.intent.slots.message.value : "?";
+      const tone = "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_01'/>";
 
       const direcive = {
         type: "Alexa.Endpoints.SendMessage",
@@ -41,14 +42,34 @@ export const DisplayMessageHandler: RequestHandler = {
         }
       };
 
-      if (!Utils.sendCustomDriective(handlerInput, direcive)) {
-        speechText = "Something went wrong, sorry!";
-        tone = "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_negative_response_01'/>";
-      }
+      const endpoints = await Utils.getConnectedEndpoints(handlerInput);
 
-      return handlerInput.responseBuilder
-        .speak(tone)
-        .getResponse();
+      let response = null;
+      if (endpoints.length === 0) {
+        console.log("No connected endpoints available");
+        response = handlerInput.responseBuilder
+            .speak("No endpoints found. Please try again after connecting your gadget.")
+            .getResponse();
+      } else {
+        const customDirective = {
+            type: "CustomInterfaceController.SendDirective",
+            header: {
+                name: "SenseHatGadget",
+                namespace: "DisplayMessage"
+            },
+            endpoint: {
+              endpointId: ((endpoints[0] || {}).endpointId || "")
+            },
+            payload: {
+                message: speechText
+            }
+          };
+        response = handlerInput.responseBuilder
+            .speak(tone)
+            .addDirective(customDirective as Directive)
+            .getResponse();
+        }
+      return response;
     }
   };
 
