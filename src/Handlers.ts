@@ -33,15 +33,6 @@ export const DisplayMessageHandler: RequestHandler = {
             request.intent.slots.message.value : "?";
       const tone = "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_01'/>";
 
-      const direcive = {
-        type: "Alexa.Endpoints.SendMessage",
-        namespace: "SenseHatGadget",
-        name: "DisplayMessage",
-        payload: {
-          message: speechText
-        }
-      };
-
       const endpoints = await Utils.getConnectedEndpoints(handlerInput);
 
       let response = null;
@@ -54,8 +45,8 @@ export const DisplayMessageHandler: RequestHandler = {
         const customDirective = {
             type: "CustomInterfaceController.SendDirective",
             header: {
-                name: "SenseHatGadget",
-                namespace: "DisplayMessage"
+                namespace: "SenseHatGadget",
+                name: "DisplayMessage"
             },
             endpoint: {
               endpointId: ((endpoints[0] || {}).endpointId || "")
