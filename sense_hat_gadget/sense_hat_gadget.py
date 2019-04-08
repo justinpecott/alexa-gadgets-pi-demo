@@ -4,10 +4,14 @@
 # AMAZON.COM CONFIDENTIAL
 #
 from agt import AlexaGadget
+from agt import messages_pb2 as proto
+from sense_hat import SenseHat
 from util import SenseDisplay
 import sys
 import json
 import logging
+import threading
+import time
 
 logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -15,8 +19,11 @@ logger = logging.getLogger(__name__)
 class SenseHatGadget(AlexaGadget):
 
     def __init__(self):
-        self.display = SenseDisplay()
+        self.sense = SenseHat()
+        self.display = SenseDisplay(self.sense)
         super().__init__()
+        # Kick the shake detection into its own thread
+        threading.Thread(target=self.alert_on_shake, daemon=True)
 
     def on_alexa_gadget_statelistener_stateupdate(self, directive):
         """
@@ -136,10 +143,38 @@ class SenseHatGadget(AlexaGadget):
                 self.display.show_bpm(i.value)
 
     def on_sensehatgadget_displaymessage(self, directive):
+        """
+        Custom Directive Handling for SenseHatGadget.DisplayMessage
+        """
         logger.debug(directive)
         message_obj = json.loads(directive.payload.decode("utf8"))
         self.display.message(message_obj["message"])
         self.display.clear()
+
+    def alert_on_shake(self):
+        while True:
+            time.sleep(.5)
+            acceleration = self.sense.get_accelerometer_raw()
+            x = abs(acceleration['x'])
+            y = abs(acceleration['y'])
+            z = abs(acceleration['z'])
+            logger.debug("Checking for shake...")
+            logger.debug("x:" + x + " y:" + y + " z:" +z)
+            if x > 1 or y > 1 or z > 1:
+                logger.debug("Shake detected.")
+                self.sense.show_letter("!", (255, 0, 0))
+                custom_event = proto.Event()
+                custom_event.Header.namespace = "SenseHatGadget"
+                custom_event.Header.name = "SendStatus"
+                custom_event.Header.messageId = ""
+                custom_event.payload = {
+                    "message": "Shake it like a polaroid picture!"
+                }
+                self.send_event(custom_event)
+
+            else:
+                self.sense.clear()
+
 
 
 if __name__ == '__main__':

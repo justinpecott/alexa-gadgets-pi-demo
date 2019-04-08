@@ -13,56 +13,104 @@ export const LaunchRequestHandler: RequestHandler = {
     const speechText =
       "Welcome to Sense Hat! You can say display message followed by the message to display!.";
 
+    const inputHandlerDirective = {
+      type: "GameEngine.StartInputHandler",
+      timeout: 60000,
+      recognizers: {},
+      events: {
+        timeoutEvent: {
+          meets: ["timed out"],
+          reports: "history",
+          shouldEndInputHandler: true
+        }
+      }
+    };
+
     return handlerInput.responseBuilder
       .speak(speechText)
       .reprompt(speechText)
+      .addDirective(inputHandlerDirective as Directive)
       .getResponse();
   }
 };
 
-export const DisplayMessageHandler: RequestHandler = {
-    canHandle(handlerInput: HandlerInput) {
-      const request = handlerInput.requestEnvelope.request;
-      return (
-        request.type === "IntentRequest" && request.intent.name === "DisplayMessageIntent"
-      );
-    },
-    async handle(handlerInput: HandlerInput) {
-      const request = handlerInput.requestEnvelope.request as IntentRequest;
-      const speechText = request.intent.slots && request.intent.slots.message ?
-            request.intent.slots.message.value : "?";
-      const tone = "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_01'/>";
-
-      const endpoints = await Utils.getConnectedEndpoints(handlerInput);
-
-      let response = null;
-      if (endpoints.length === 0) {
-        console.log("No connected endpoints available");
-        response = handlerInput.responseBuilder
-            .speak("No endpoints found. Please try again after connecting your gadget.")
-            .getResponse();
-      } else {
-        const customDirective = {
-            type: "CustomInterfaceController.SendDirective",
-            header: {
-                namespace: "SenseHatGadget",
-                name: "DisplayMessage"
-            },
-            endpoint: {
-              endpointId: ((endpoints[0] || {}).endpointId || "")
-            },
-            payload: {
-                message: speechText
-            }
-          };
-        response = handlerInput.responseBuilder
-            .speak(tone)
-            .addDirective(customDirective as Directive)
-            .getResponse();
+export const CustomEventHandler: RequestHandler = {
+  canHandle(handlerInput: HandlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+    // @ts-ignore: Request Type not in SDK yet
+    return request.type === "CustomInterfaceController.EventsReceived";
+  },
+  handle(handlerInput: HandlerInput) {
+    let speechText = "";
+    // @ts-ignore: Request Type not in SDK yet
+    const customEvents = handlerInput.requestEnvelope.request.events;
+    for (const customEvent of customEvents) {
+        if (customEvent.header.namespace === "SenseHatGadget" &&
+            customEvent.header.name === "SendStatus") {
+                // @ts-ignore: Custom Event not in SDK yet
+                const payload = JSON.parse(customEvent.payload);
+                speechText = payload.message;
+        } else {
+            console.log("=== UNKNOWN EVENT ===\n" + customEvent);
+            speechText = "That was weird. I don't know anything about that event. Better check the logs.";
         }
-      return response;
     }
-  };
+
+    return handlerInput.responseBuilder
+        .speak(speechText)
+        .getResponse();
+  }
+};
+
+export const DisplayMessageHandler: RequestHandler = {
+  canHandle(handlerInput: HandlerInput) {
+    const request = handlerInput.requestEnvelope.request;
+    return (
+      request.type === "IntentRequest" &&
+      request.intent.name === "DisplayMessageIntent"
+    );
+  },
+  async handle(handlerInput: HandlerInput) {
+    const request = handlerInput.requestEnvelope.request as IntentRequest;
+    const speechText =
+      request.intent.slots && request.intent.slots.message
+        ? request.intent.slots.message.value
+        : "?";
+    const tone =
+      "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_01'/>";
+
+    const endpoints = await Utils.getConnectedEndpoints(handlerInput);
+
+    let response = null;
+    if (endpoints.length === 0) {
+      console.log("No connected endpoints available");
+      response = handlerInput.responseBuilder
+        .speak(
+          "No endpoints found. Please try again after connecting your gadget."
+        )
+        .getResponse();
+    } else {
+      const customDirective = {
+        type: "CustomInterfaceController.SendDirective",
+        header: {
+          namespace: "SenseHatGadget",
+          name: "DisplayMessage"
+        },
+        endpoint: {
+          endpointId: (endpoints[0] || {}).endpointId || ""
+        },
+        payload: {
+          message: speechText
+        }
+      };
+      response = handlerInput.responseBuilder
+        .speak(tone)
+        .addDirective(customDirective as Directive)
+        .getResponse();
+    }
+    return response;
+  }
+};
 
 export const HelpIntentHandler: RequestHandler = {
   canHandle(handlerInput: HandlerInput) {
@@ -75,7 +123,8 @@ export const HelpIntentHandler: RequestHandler = {
     );
   },
   handle(handlerInput: HandlerInput) {
-    const speechText = "Tell to display message followed by the message to display!";
+    const speechText =
+      "Tell to display message followed by the message to display!";
 
     return handlerInput.responseBuilder
       .speak(speechText)
@@ -97,9 +146,7 @@ export const CancelAndStopIntentHandler: RequestHandler = {
   handle(handlerInput: HandlerInput) {
     const speechText = "Goodbye!";
 
-    return handlerInput.responseBuilder
-      .speak(speechText)
-      .getResponse();
+    return handlerInput.responseBuilder.speak(speechText).getResponse();
   }
 };
 

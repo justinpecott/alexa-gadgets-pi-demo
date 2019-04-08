@@ -347,8 +347,8 @@ class SenseDisplay():
         "cyan": _CY
     }
 
-    def __init__(self):
-        self.sense = SenseHat()
+    def __init__(self, sense):
+        self.sense = sense
 
     def alexa_logo(self):
         self.sense.set_rotation(0)

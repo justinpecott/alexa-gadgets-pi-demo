@@ -4,14 +4,14 @@
   "description": "Project Scaffold using Typescript and ASK SDKv2",
   "main": "index.ts",
   "dependencies": {
-    "ask-sdk-core": "^2.3.0",
-    "ask-sdk-model": "^1.11.2",
+    "ask-sdk-core": "^2.5.1",
+    "ask-sdk-model": "^1.14.0",
     "web-request": "1.0.7"
   },
   "devDependencies": {
-    "@types/node": "^8.10.39",
-    "tslint": "^5.12.1",
-    "typescript": "^3.2.0"
+    "@types/node": "^8.10.45",
+    "tslint": "^5.15.0",
+    "typescript": "^3.3.0"
   },
   "scripts": {
     "clean": "rm -rf lambda",
