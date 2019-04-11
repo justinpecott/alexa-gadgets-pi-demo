@@ -7,6 +7,7 @@ from agt import AlexaGadget
 from agt import messages_pb2 as proto
 from sense_hat import SenseHat
 from util import SenseDisplay
+from pathlib import Path
 import sys
 import json
 import logging
@@ -21,13 +22,10 @@ class SenseHatGadget(AlexaGadget):
     def __init__(self):
         self.sense = SenseHat()
         self.display = SenseDisplay(self.sense)
-        #super().__init__()
-        # Kick the shake detection into its own thread
-        self.alert_on_shake("poop")
-        logger.debug("Kick Thread from init")
-        threading.Thread(target=self.alert_on_shake, args=(1,), daemon=True)
-        logger.debug("Moving On")
+        shake_check = threading.Thread(target=self.alert_on_shake, args=(), daemon=True)
+        shake_check.start()
         super().__init__()
+        logger.debug("WOOT")
 
     def on_alexa_gadget_statelistener_stateupdate(self, directive):
         """
@@ -155,9 +153,8 @@ class SenseHatGadget(AlexaGadget):
         self.display.message(message_obj["message"])
         self.display.clear()
 
-    def alert_on_shake(self, name):
+    def alert_on_shake(self):
         logger.debug("KICKING THE THREAD OFF")
-        logger.debug(name)
         while True:
             time.sleep(.5)
             acceleration = self.sense.get_accelerometer_raw()
@@ -166,27 +163,24 @@ class SenseHatGadget(AlexaGadget):
             z = abs(acceleration['z'])
             logger.debug("Checking for shake...")
             logger.debug("x:" + str(x) + " y:" + str(y) + " z:" + str(z))
-            if x > 1 or y > 1 or z > 1:
+            if x > 2 or y > 2 or z > 2:
                 logger.debug("Shake detected.")
                 self.sense.show_letter("!", (255, 0, 0))
+                payload = {
+                    "message": "Shake it like a polaroid picture"
+                }
                 custom_event = proto.Event()
                 custom_event.Header.namespace = "SenseHatGadget"
                 custom_event.Header.name = "SendStatus"
                 custom_event.Header.messageId = ""
-                custom_event.payload = {
-                    "message": "Shake it like a polaroid picture"
-                }
-                logger.debug("===SENDING EVENT===")
-                logger.debug(custom_event)
-                event_to_send = custom_event.SerializeToString()
-                self.send_event(event_to_send)
+                custom_event.payload = str.encode(json.dumps(payload))
+                logger.debug("===Sending Event===")
+                self.send_event(custom_event)
 
             else:
                 self.sense.clear()
 
         logger.debug("THREAD IS DEAD")
-
-
 
 if __name__ == '__main__':
     SenseHatGadget().main()

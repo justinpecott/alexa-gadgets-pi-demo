@@ -38,7 +38,8 @@ export const CustomEventHandler: RequestHandler = {
   canHandle(handlerInput: HandlerInput) {
     const request = handlerInput.requestEnvelope.request;
     // @ts-ignore: Request Type not in SDK yet
-    return request.type === "CustomInterfaceController.EventsReceived";
+    return request.type === "CustomInterfaceController.EventsReceived" ||
+            request.type === "GameEngine.InputHandlerEvent";
   },
   handle(handlerInput: HandlerInput) {
     let speechText = "";
