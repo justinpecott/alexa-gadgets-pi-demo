@@ -9,7 +9,7 @@
         },
         "interactionModel": {
           "en-US": {
-            "eTag": "ece34173be8ec0919d8d25e6fbf575b5"
+            "eTag": "dfd168c8c5782e2181723b83cd343ec5"
           }
         },
         "lambda": [
@@ -22,7 +22,7 @@
             "codeUri": "lambda/custom",
             "functionName": "ask-custom-sense-hat-default",
             "handler": "index.handler",
-            "revisionId": "5f3ce649-56c5-4586-aac1-1b06312273ed",
+            "revisionId": "0838fc7f-b3f1-4aa5-a6e0-d33ac116140f",
             "runtime": "nodejs8.10"
           }
         ]

@@ -1,0 +1,1 @@
+from .sense_hat_event_pb2 import SenseHatEvent

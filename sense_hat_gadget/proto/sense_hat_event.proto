@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package custom.sensehat;
+
+message SenseHatEvent {
+    Header header = 1;
+    string payload = 2;
+    message Header {
+      string namespace = 1;
+      string name = 2;
+      string messageId = 3;
+    }
+}

@@ -28,7 +28,6 @@ export const LaunchRequestHandler: RequestHandler = {
 
         return handlerInput.responseBuilder
             .speak(speechText)
-            .reprompt(speechText)
             .addDirective(inputHandlerDirective as Directive)
             .getResponse();
     }
