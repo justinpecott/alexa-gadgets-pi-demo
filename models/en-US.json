@@ -1,7 +1,7 @@
 {
   "interactionModel": {
     "languageModel": {
-      "invocationName": "sense hat",
+      "invocationName": "cow scarf",
       "intents": [
         {
           "name": "AMAZON.FallbackIntent",

@@ -1,43 +1,57 @@
 {
-  "manifest": {
-    "apis": {
-      "custom": {
-        "endpoint": {
-          "sourceDir": "lambda/custom",
-          "uri": "ask-custom-sense-hat-default"
+    "manifest": {
+        "apis": {
+            "custom": {
+                "endpoint": {
+                    "sourceDir": "lambda/custom",
+                    "uri": "ask-custom-sense-hat-default"
+                },
+                "interfaces": [
+                    {
+                        "type": "GAME_ENGINE"
+                    },
+                    {
+                        "type": "GADGET_CONTROLLER"
+                    }
+                ]
+            }
         },
-        "interfaces": []
-      }
-    },
-    "manifestVersion": "1.0",
-    "privacyAndCompliance": {
-      "allowsPurchases": false,
-      "usesPersonalInfo": false,
-      "isChildDirected": false,
-      "isExportCompliant": true,
-      "containsAds": false
-    },
-    "publishingInformation": {
-      "locales": {
-        "en-US": {
-          "name": "Sense Hat",
-          "summary": "Shows ALexa Gadget Interface Usage",
-          "description": "Sample Skill for Alexa Gadgets",
-          "examplePhrases": [
-            "Alexa, open sense hat",
-            "Alexam tell sense hat to display message hello"
-          ],
-          "keywords": [
-            "PyAGT",
-            "Raspberry Pi",
-            "Alexa Gadgets"
-          ]
+        "manifestVersion": "1.0",
+        "privacyAndCompliance": {
+            "allowsPurchases": false,
+            "usesPersonalInfo": false,
+            "isChildDirected": false,
+            "isExportCompliant": true,
+            "containsAds": false
+        },
+        "publishingInformation": {
+            "locales": {
+                "en-US": {
+                    "name": "Sense Hat",
+                    "summary": "Shows ALexa Gadget Interface Usage",
+                    "description": "Sample Skill for Alexa Gadgets",
+                    "examplePhrases": [
+                        "Alexa, open sense hat",
+                        "Alexam tell sense hat to display message hello"
+                    ],
+                    "keywords": [
+                        "PyAGT",
+                        "Raspberry Pi",
+                        "Alexa Gadgets"
+                    ]
+                }
+            },
+            "isAvailableWorldwide": false,
+            "testingInstructions": "Nada",
+            "category": "KNOWLEDGE_AND_TRIVIA",
+            "distributionCountries": [],
+            "gadgetSupport": {
+                "requirement": "REQUIRED",
+                "numPlayersMin": 1,
+                "numPlayersMax": 1,
+                "minGadgetButtons": 1,
+                "maxGadgetButtons": 1
+              }
         }
-      },
-      "isAvailableWorldwide": false,
-      "testingInstructions": "Nada",
-      "category": "KNOWLEDGE_AND_TRIVIA",
-      "distributionCountries": []
     }
-  }
 }

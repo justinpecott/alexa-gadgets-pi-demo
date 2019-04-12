@@ -5,7 +5,7 @@
       "merge": {},
       "resources": {
         "manifest": {
-          "eTag": "f987cec36a28146256bc15d5f431bdb5"
+          "eTag": "53cbd0b57ba7dc0cdf574116308cf830"
         },
         "interactionModel": {
           "en-US": {
@@ -22,7 +22,7 @@
             "codeUri": "lambda/custom",
             "functionName": "ask-custom-sense-hat-default",
             "handler": "index.handler",
-            "revisionId": "cea799f7-d081-4cc0-b4b9-6377260f9ba7",
+            "revisionId": "5f3ce649-56c5-4586-aac1-1b06312273ed",
             "runtime": "nodejs8.10"
           }
         ]
