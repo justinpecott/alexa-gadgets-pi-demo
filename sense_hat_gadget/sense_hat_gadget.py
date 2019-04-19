@@ -5,7 +5,6 @@
 #
 from agt import AlexaGadget
 from proto import SenseHatEvent
-from agt import messages_pb2 as proto
 from sense_hat import SenseHat
 from util import SenseDisplay
 from pathlib import Path
@@ -27,7 +26,6 @@ class SenseHatGadget(AlexaGadget):
         shake_check = threading.Thread(target=self.alert_on_shake, args=(), daemon=True)
         shake_check.start()
         super().__init__()
-        logger.debug("WOOT")
 
     def on_alexa_gadget_statelistener_stateupdate(self, directive):
         """
@@ -156,116 +154,31 @@ class SenseHatGadget(AlexaGadget):
         self.display.clear()
 
     def alert_on_shake(self):
-        logger.debug("KICKING THE THREAD OFF")
+        logger.debug("KICKING THE SHAKE CHECK THREAD OFF")
         while True:
             time.sleep(.5)
             acceleration = self.sense.get_accelerometer_raw()
             x = abs(acceleration['x'])
             y = abs(acceleration['y'])
             z = abs(acceleration['z'])
-            logger.debug("Checking for shake...")
-            logger.debug("x:" + str(x) + " y:" + str(y) + " z:" + str(z))
             if x > 2 or y > 2 or z > 2:
                 logger.debug("Shake detected.")
+                logger.debug("x:" + str(x) + " y:" + str(y) + " z:" + str(z))
                 self.sense.show_letter("!", (255, 0, 0))
 
                 custom_event = SenseHatEvent()
-                custom_event.Header.namespace = "Custom.SenseHatGadget"
-                custom_event.Header.name = "VoiceResponse"
-                custom_event.Header.messageId = ""
+                custom_event.header.namespace = "Custom.SenseHatGadget"
+                custom_event.header.name = "VoiceResponse"
+                custom_event.header.messageId = ""
                 payload = {
                     "message": "Shake it like a polaroid picture"
                 }
                 custom_event.payload = json.dumps(payload)
-                logger.debug("===Sending Event===")
-                self.send_custom_event(custom_event)
-                time.sleep(.3)
+                self.send_event(custom_event)
+                time.sleep(.5)
                 self.sense.clear()
 
-        logger.debug("THREAD IS DEAD")
-
-    def send_custom_event(self, event):
-        """
-        Send an event to the Echo device
-
-        :param event: the event that should be sent to the Echo Devie
-        """
-        # msg = proto.Message()
-        # msg.payload = event.SerializeToString()
-        # logger.debug('Sending event to Echo device:\033[90m {{ {} }}\033[00m'.format(
-        #     json_format.MessageToDict(event)))
-        # self._bluetooth.send(msg.SerializeToString())
-
-        logger.debug('Sending event to Echo device:\033[90m {{ {} }}\033[00m'.format(
-            json_format.MessageToDict(event)))
-        self._bluetooth.send(list(event.SerializeToString()))
-
-
-
-
-
-    # PI GADGET
-    # import protobuf.g_types.packet as g_packet
-
-    # def send_gadget_event(self, namespace, name, payload):
-    #   print("Generating and sending gadget event")
-    #   pb_msg = gadgetManagerGadgetEvent_pb2.GadgetEventProto()
-    #   pb_msg.event.header.namespace = namespace
-    #   pb_msg.event.header.name = name
-    #   pb_msg.event.header.messageId = ""
-    #   pb_msg.event.payload = payload
-    #   custom_msg = list(pb_msg.SerializeToString())
-    #   self.send_payload(custom_msg)
-
-    # def send_payload(self, payload):
-    #     """
-    #     Send a payload by id and raw data.
-
-    #     :param payload_id: Payload id (command/event)
-    #     :param payload: Array of bytes to send.
-    #     :return: None
-    #     """
-    #     packet = g_packet.Packet(spp_payload=payload)
-    #     self.send(packet.serialize())
-
-    # def send(self, data):
-    #     """
-    #     Send data to an attached EFD.
-
-    #     :param data: Bytearray to send.
-    #     :return: None
-    #     """
-    #     if self.send_func is None:
-    #         print('NO SEND FUNCTION: [0x{:02x}] {}'.format(len(data), ':'.join('{:02x}'.format(a) for a in data)))
-    #     else:
-    #         self.send_func(data)
-
-    # def start_rfc_service(self):
-    #     # Tell the Gadget & OTA manager to send over the RFC service.
-    #     # The RFCService will send/receive directives & events over BT
-    #     if self.rfc is None:
-    #         self.rfc = rfc.RFCService(self.gadget, "0x1201", 4, "/bluez3", self.gadget.parse)
-    #     if self.rfc_ota is None:
-    #         # The RFCOTAService will send/receive OTA packets over BT
-    #         self.rfc_ota = rfc.RFCService(self.gadget, "0x1101", 2, "/bluez7", self.ota_manager.data_handler)
-    #     # Tell the Gadget & OTA manager to send over the RFC service.
-    #     if self.gadget.send_func is None:
-    #         self.gadget.send_func = self.rfc.send
-    #     if self.ota_manager.send is None:
-    #         self.ota_manager.send = self.rfc_ota.send
-
-    #     # Ready to receive now.
-    #     if not self.rfc.is_alive():
-    #         self.rfc.listen()
-    #     if not self.rfc_ota.is_alive():
-    #         self.rfc_ota.listen()
-
-    # def send(self, serialized_packet):
-    #     if self.channel != 2:
-    #         print("Sending via RFCOMM:", bytes(serialized_packet))
-    #     sent = 0
-    #     while sent < len(serialized_packet):
-    #         sent += self.listener.client_socket.send(bytes(serialized_packet))
+        logger.debug("SHAKE CHECK THREAD IS DEAD")
 
 if __name__ == '__main__':
     SenseHatGadget().main()

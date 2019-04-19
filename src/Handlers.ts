@@ -11,7 +11,8 @@ export const LaunchRequestHandler: RequestHandler = {
     },
     handle(handlerInput: HandlerInput) {
         const speechText =
-            "Welcome to Sense Hat! You can say display message followed by the message to display!.";
+            "Welcome to Sense Hat! You can tell me to display a message. " +
+            "Otherwise I'll just be listening for interesting things that might occur.";
 
         const inputHandlerDirective = {
             type: "GameEngine.StartInputHandler",
@@ -29,6 +30,7 @@ export const LaunchRequestHandler: RequestHandler = {
         return handlerInput.responseBuilder
             .speak(speechText)
             .addDirective(inputHandlerDirective as Directive)
+            .withShouldEndSession(false)
             .getResponse();
     }
 };
