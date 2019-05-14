@@ -1,5 +1,6 @@
 import { ErrorHandler, HandlerInput, RequestHandler } from "ask-sdk-core";
 import { Directive, IntentRequest, interfaces } from "ask-sdk-model";
+import { v4 as uuid } from "uuid";
 import * as Utils from "./Utils";
 
 /**
@@ -9,55 +10,62 @@ export const LaunchRequestHandler: RequestHandler = {
     canHandle(handlerInput: HandlerInput) {
         return handlerInput.requestEnvelope.request.type === "LaunchRequest";
     },
-    handle(handlerInput: HandlerInput) {
+    async handle(handlerInput: HandlerInput) {
+        const attributesManager = handlerInput.attributesManager;
+        const sessionAttributes = attributesManager.getSessionAttributes();
+        sessionAttributes.token = uuid();
+        sessionAttributes.endpoints = await Utils.getConnectedEndpoints(handlerInput);
+        attributesManager.setSessionAttributes(sessionAttributes);
+
         const speechText =
             "Welcome to Sense Hat! You can tell me to display a message. " +
             "Otherwise I'll just be listening for interesting things that might occur.";
 
-        const inputHandlerDirective = {
-            type: "GameEngine.StartInputHandler",
-            timeout: 60000,
-            recognizers: {},
-            events: {
-                timeoutEvent: {
-                    meets: ["timed out"],
-                    reports: "history",
-                    shouldEndInputHandler: true
+        const startEventHandlerDirective = {
+            type: "CustomInterfaceController.StartEventHandler",
+            token: sessionAttributes.token,
+            expiration: {
+                durationInMilliseconds: 60000,
+                expirationPayload: {
+                    message: "This is boring. I'm out!"
                 }
+            },
+            eventFilter: {
+                filterExpression: {
+                    and: [
+                        { "==": [{ var: "header.namespace"}, "Custom.SenseHatGadget"]},
+                        { "==": [{ var: "endpoint.endpointId" }, sessionAttributes.endpoints[0].endpointId]}
+                    ]
+                },
+                filterMatchAction: "SEND_AND_TERMINATE"
             }
         };
 
         return handlerInput.responseBuilder
             .speak(speechText)
-            .addDirective(inputHandlerDirective as Directive)
+            .addDirective(startEventHandlerDirective as Directive)
             .withShouldEndSession(false)
             .getResponse();
     }
 };
 
-export const GameEngineHandler: RequestHandler = {
+export const CustomInterfaceExpirationHandler: RequestHandler = {
     canHandle(handlerInput: HandlerInput) {
         const request = handlerInput.requestEnvelope.request;
-        return request.type === "GameEngine.InputHandlerEvent";
+        // @ts-ignore: Request Type not in SDK yet
+        return request.type === "CustomInterfaceController.Expired";
     },
     handle(handlerInput: HandlerInput) {
-        let speechText = "";
-        const request = handlerInput.requestEnvelope.request as interfaces.gameEngine.InputHandlerEventRequest;
-        const gameEngineEvents = request.events === undefined ? [] : request.events;
-        for (const gEvent of gameEngineEvents) {
-            if (gEvent.name === "timeoutEvent") {
-                speechText = "This is boring. I'm out!";
-            } else {
-                console.log("=== UNKNOWN EVENT ===\n" + gEvent);
-                speechText = "That was weird. I don't know anything about that event. Better check the logs.";
-            }
-        }
-
+        const request = handlerInput.requestEnvelope.request;
+        // @ts-ignore: Request Type (w/ expirationPayload) not in SDK yet
+        const speechText = (request.expirationPayload == null)
+            // @ts-ignore: Request Type (w/ expirationPayload) not in SDK yet
+            ? "expiration payload data is missing" : request.expirationPayload.message;
         return handlerInput.responseBuilder.speak(speechText).withShouldEndSession(true).getResponse();
     }
 };
 
-export const CustomEventHandler: RequestHandler = {
+export const CustomInterfaceEventHandler: RequestHandler = {
     canHandle(handlerInput: HandlerInput) {
         const request = handlerInput.requestEnvelope.request;
         // @ts-ignore: Request Type not in SDK yet
@@ -94,6 +102,8 @@ export const DisplayMessageHandler: RequestHandler = {
         );
     },
     async handle(handlerInput: HandlerInput) {
+        const attributesManager = handlerInput.attributesManager;
+        const sessionAttributes = attributesManager.getSessionAttributes();
         const request = handlerInput.requestEnvelope.request as IntentRequest;
         const speechText =
             request.intent.slots && request.intent.slots.message
@@ -102,10 +112,8 @@ export const DisplayMessageHandler: RequestHandler = {
         const tone =
             "<audio src='soundbank://soundlibrary/ui/gameshow/amzn_ui_sfx_gameshow_positive_response_01'/>";
 
-        const endpoints = await Utils.getConnectedEndpoints(handlerInput);
-
         let response = null;
-        if (endpoints.length === 0) {
+        if (sessionAttributes.endpoints.length === 0) {
             console.log("No connected endpoints available");
             response = handlerInput.responseBuilder
                 .speak(
@@ -120,7 +128,7 @@ export const DisplayMessageHandler: RequestHandler = {
                     name: "DisplayMessage"
                 },
                 endpoint: {
-                    endpointId: (endpoints[0] || {}).endpointId || ""
+                    endpointId: (sessionAttributes.endpoints[0] || {}).endpointId || ""
                 },
                 payload: {
                     message: speechText
