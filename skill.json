@@ -1,57 +1,56 @@
 {
-    "manifest": {
-        "apis": {
-            "custom": {
-                "endpoint": {
-                    "sourceDir": "lambda/custom",
-                    "uri": "ask-custom-sense-hat-default"
-                },
-                "interfaces": [
-                    {
-                        "type": "GAME_ENGINE"
-                    },
-                    {
-                        "type": "GADGET_CONTROLLER"
-                    }
-                ]
-            }
+  "manifest": {
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "arn:aws:lambda:us-east-1:486694442534:function:ask-custom-sense-hat-default"
         },
-        "manifestVersion": "1.0",
-        "privacyAndCompliance": {
-            "allowsPurchases": false,
-            "usesPersonalInfo": false,
-            "isChildDirected": false,
-            "isExportCompliant": true,
-            "containsAds": false
-        },
-        "publishingInformation": {
-            "locales": {
-                "en-US": {
-                    "name": "Sense Hat",
-                    "summary": "Shows ALexa Gadget Interface Usage",
-                    "description": "Sample Skill for Alexa Gadgets",
-                    "examplePhrases": [
-                        "Alexa, open sense hat",
-                        "Alexam tell sense hat to display message hello"
-                    ],
-                    "keywords": [
-                        "PyAGT",
-                        "Raspberry Pi",
-                        "Alexa Gadgets"
-                    ]
-                }
-            },
-            "isAvailableWorldwide": false,
-            "testingInstructions": "Nada",
-            "category": "KNOWLEDGE_AND_TRIVIA",
-            "distributionCountries": [],
-            "gadgetSupport": {
-                "requirement": "REQUIRED",
-                "numPlayersMin": 1,
-                "numPlayersMax": 1,
-                "minGadgetButtons": 1,
-                "maxGadgetButtons": 1
-              }
+        "interfaces": [
+          {
+            "type": "CUSTOM_INTERFACE"
+          },
+          {
+            "type": "GADGET_CONTROLLER"
+          }
+        ]
+      }
+    },
+    "manifestVersion": "1.0",
+    "privacyAndCompliance": {
+      "allowsPurchases": false,
+      "usesPersonalInfo": false,
+      "isChildDirected": false,
+      "isExportCompliant": true,
+      "containsAds": false
+    },
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "name": "Sense Hat",
+          "summary": "Shows ALexa Gadget Interface Usage",
+          "description": "Sample Skill for Alexa Gadgets",
+          "examplePhrases": [
+            "Alexa, open sense hat",
+            "Alexam tell sense hat to display message hello"
+          ],
+          "keywords": [
+            "PyAGT",
+            "Raspberry Pi",
+            "Alexa Gadgets"
+          ]
         }
+      },
+      "isAvailableWorldwide": false,
+      "gadgetSupport": {
+        "requirement": "REQUIRED",
+        "maxGadgetButtons": 1,
+        "minGadgetButtons": 1,
+        "numPlayersMax": 1,
+        "numPlayersMin": 1
+      },
+      "testingInstructions": "Nada",
+      "category": "KNOWLEDGE_AND_TRIVIA",
+      "distributionCountries": []
     }
+  }
 }
