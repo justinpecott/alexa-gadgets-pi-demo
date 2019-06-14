@@ -8,9 +8,6 @@
         "interfaces": [
           {
             "type": "CUSTOM_INTERFACE"
-          },
-          {
-            "type": "GADGET_CONTROLLER"
           }
         ]
       }
@@ -41,13 +38,6 @@
         }
       },
       "isAvailableWorldwide": false,
-      "gadgetSupport": {
-        "requirement": "REQUIRED",
-        "maxGadgetButtons": 1,
-        "minGadgetButtons": 1,
-        "numPlayersMax": 1,
-        "numPlayersMin": 1
-      },
       "testingInstructions": "Nada",
       "category": "KNOWLEDGE_AND_TRIVIA",
       "distributionCountries": []
