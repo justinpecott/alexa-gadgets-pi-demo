@@ -5,13 +5,13 @@
   "main": "index.ts",
   "dependencies": {
     "@types/uuid": "^3.4.4",
-    "ask-sdk-core": "^2.5.1",
-    "ask-sdk-model": "^1.14.0",
+    "ask-sdk-core": "^2.7.0",
+    "ask-sdk-model": "^1.18.0",
     "uuid": "^3.3.2",
     "web-request": "1.0.7"
   },
   "devDependencies": {
-    "@types/node": "^8.10.45",
+    "@types/node": "^8.10.51",
     "tslint": "^5.15.0",
     "typescript": "^3.3.0"
   },

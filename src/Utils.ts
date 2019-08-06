@@ -45,7 +45,7 @@ export function buildStartInputHanlder(
             expirationPayload: {
                 message: "Your skill session time expired. Bye!"
             }
-        }//,
+        }// ,
         // eventFilter: {
         //     filterExpression: {
         //         and: [

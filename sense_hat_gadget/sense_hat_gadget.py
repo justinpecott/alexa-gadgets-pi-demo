@@ -4,12 +4,9 @@
 # AMAZON.COM CONFIDENTIAL
 #
 from agt import AlexaGadget
-from agt import Event
-from proto import SenseHatEvent
 from sense_hat import SenseHat
 from util import SenseDisplay
 from pathlib import Path
-from google.protobuf import json_format
 import sys
 import json
 import logging
@@ -166,18 +163,10 @@ class SenseHatGadget(AlexaGadget):
                 logger.debug("Shake detected.")
                 logger.debug("x:" + str(x) + " y:" + str(y) + " z:" + str(z))
                 self.sense.show_letter("!", (255, 0, 0))
-
-                #custom_event = SenseHatEvent()
-                custom_event = Event()
-                custom_event.header.namespace = "Custom.SenseHatGadget"
-                custom_event.header.name = "VoiceResponse"
-                custom_event.header.messageId = ""
                 payload = {
                     "message": "Shake it like a polaroid picture"
                 }
-                custom_event.payload = json.dumps(payload).encode('UTF-8')
-                #custom_event.payload = json.dumps(payload)
-                self.send_event(custom_event)
+                self.send_custom_event("Custom.SenseHatGadget", "VoiceResponse", payload)
                 time.sleep(.5)
                 self.sense.clear()
 
