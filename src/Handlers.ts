@@ -68,8 +68,7 @@ export const CustomInterfaceEventHandler: RequestHandler = {
     for (const customEvent of customEvents) {
       if (customEvent.header.name === "VoiceResponse") {
         // @ts-ignore: Custom Event not in SDK yet
-        const payload = JSON.parse(customEvent.payload);
-        speechText = payload.message;
+        speechText = customEvent.payload.message;
       } else {
         console.log("=== UNKNOWN EVENT ===\n" + customEvent);
         speechText =
