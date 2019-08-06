@@ -45,16 +45,16 @@ export function buildStartInputHanlder(
             expirationPayload: {
                 message: "Your skill session time expired. Bye!"
             }
-        },
-        eventFilter: {
-            filterExpression: {
-                and: [
-                    { "==": [{ var: "header.namespace"}, namespace]},
-                    { "==": [{ var: "header.name" }, name]}
-                ]
-            },
-            filterMatchAction: terminate ? "SEND_AND_TERMINATE" : "SEND"
-        }
+        }//,
+        // eventFilter: {
+        //     filterExpression: {
+        //         and: [
+        //             { "==": [{ var: "header.namespace"}, namespace]},
+        //             { "==": [{ var: "header.name" }, name]}
+        //         ]
+        //     },
+        //     filterMatchAction: terminate ? "SEND_AND_TERMINATE" : "SEND"
+        // }
     };
 }
 
