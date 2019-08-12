@@ -26,10 +26,9 @@ export async function getConnectedEndpoints(
 
 export function buildStartInputHanlder(
     handlerInput: HandlerInput,
-    timeout = 60000,
+    timeout = 90000,
     terminate = false,
-    namespace = "Custom.SenseHatGadget",
-    name = "VoiceResponse"
+    namespace = "Custom.SenseHatGadget"
 ) {
     const attributesManager = handlerInput.attributesManager;
     const sessionAttributes = attributesManager.getSessionAttributes();
@@ -43,18 +42,17 @@ export function buildStartInputHanlder(
         expiration: {
             durationInMilliseconds: timeout,
             expirationPayload: {
-                message: "Your skill session time expired. Bye!"
+                message: "This is a sample message. Game over! Would you like to hear your stats?"
             }
-        }// ,
-        // eventFilter: {
-        //     filterExpression: {
-        //         and: [
-        //             { "==": [{ var: "header.namespace"}, namespace]},
-        //             { "==": [{ var: "header.name" }, name]}
-        //         ]
-        //     },
-        //     filterMatchAction: terminate ? "SEND_AND_TERMINATE" : "SEND"
-        // }
+        } ,
+        eventFilter: {
+            filterExpression: {
+                and: [
+                    { "==": [{ var: "header.namespace"}, namespace]}
+                ]
+            },
+            filterMatchAction: terminate ? "SEND_AND_TERMINATE" : "SEND"
+        }
     };
 }
 
