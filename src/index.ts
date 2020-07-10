@@ -16,3 +16,12 @@ export const handler = SkillBuilders.custom()
   .addResponseInterceptors(Interceptors.LoggingResponseInterceptor)
   .addErrorHandlers(Handlers.ErrorOccurred)
   .lambda();
+
+
+  responseEndpoint.forEach((endpoint) => {
+    endpoint.capabilities.forEach((capability) => {
+      if (capability.interface === gadgetCapability){
+        gadgetEndpointID = endpoint.endpointId;
+      }
+    }
+  });
