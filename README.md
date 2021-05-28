@@ -1,5 +1,5 @@
 # Sense Hat
-Demo Skill for Alexa Gadgets
+Demo Skill and Raspberry Pi Gadget for Alexa Gadgets
 
 ## Skill
 
